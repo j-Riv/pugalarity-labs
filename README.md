@@ -1,5 +1,7 @@
 # Pugalarity Labs
 
+Pugalarity Labs: Artificial Intelligence, Questionable Intelligence. A satirical AI startup site built with Astro, TypeScript and Tailwind.
+
 Source for [pugalaritylabs.com](https://pugalaritylabs.com). A static [Astro](https://astro.build) site with TypeScript and Tailwind CSS. No backend, no analytics, no data collection, no secrets.
 
 ## Requirements
