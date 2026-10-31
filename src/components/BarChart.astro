@@ -1,0 +1,94 @@
+---
+// Grouped horizontal bar chart built from plain HTML/CSS, so text stays readable
+// on phones (SVG text would shrink with the viewport). The bars are aria-hidden;
+// screen readers get a real <table> with the same numbers instead.
+interface Series {
+  label: string;
+  /** Tailwind background class for the bar. */
+  barClass: string;
+}
+
+interface Group {
+  name: string;
+  values: number[];
+}
+
+interface Props {
+  title: string;
+  caption?: string;
+  series: Series[];
+  groups: Group[];
+  /** Scale maximum. Defaults to 100 (percent). */
+  max?: number;
+  unit?: string;
+}
+
+const { title, caption, series, groups, max = 100, unit = '%' } = Astro.props;
+---
+
+<figure class="border-rule bg-paper-2 rounded-lg border p-5">
+  <figcaption class="font-serif text-lg font-semibold">{title}</figcaption>
+  {caption && <p class="text-muted mt-1 text-sm">{caption}</p>}
+
+  <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm" aria-hidden="true">
+    {
+      series.map((s) => (
+        <li class="flex items-center gap-2">
+          <span class={`inline-block h-3 w-3 rounded-sm ${s.barClass}`} />
+          {s.label}
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="mt-4 space-y-5" aria-hidden="true">
+    {
+      groups.map((g) => (
+        <div>
+          <div class="mb-1 text-sm font-medium">{g.name}</div>
+          <div class="space-y-1.5">
+            {g.values.map((v, i) => (
+              <div class="flex items-center gap-3">
+                <div class="bg-rule/60 h-5 flex-1 overflow-hidden rounded-sm">
+                  <div
+                    class={`h-full rounded-sm ${series[i].barClass}`}
+                    style={`width:${Math.min(100, (v / max) * 100)}%`}
+                  />
+                </div>
+                <span class="w-16 text-right font-mono text-sm tabular-nums">
+                  {v}
+                  {unit}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <table class="sr-only">
+    <caption>{title}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Benchmark</th>
+        {series.map((s) => <th scope="col">{s.label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        groups.map((g) => (
+          <tr>
+            <th scope="row">{g.name}</th>
+            {g.values.map((v) => (
+              <td>
+                {v}
+                {unit}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</figure>

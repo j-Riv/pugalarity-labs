@@ -1,0 +1,150 @@
+---
+// A component is a function of its props that renders HTML at build time.
+// This one draws a pug portrait as inline SVG. All art is original; swap the
+// shapes below for illustrations later without touching any page.
+export type Coat = 'fawn' | 'black' | 'silver';
+export type Expression = 'neutral' | 'smile' | 'sleepy';
+export type Accessory = 'tie' | 'glasses' | 'headset' | 'crown' | 'cap';
+
+interface Props {
+  coat?: Coat;
+  expression?: Expression;
+  accessories?: Accessory[];
+  /** Accessible description. Omit for purely decorative pugs (they get aria-hidden). */
+  alt?: string;
+  class?: string;
+}
+
+const { coat = 'fawn', expression = 'neutral', accessories = [], alt, class: className } = Astro.props;
+
+const coats = {
+  fawn: { face: '#d9a566', ear: '#4a3b2c', muzzle: '#5a4634' },
+  black: { face: '#3b3631', ear: '#1f1c19', muzzle: '#2a2622' },
+  silver: { face: '#c9c2b8', ear: '#6b6358', muzzle: '#7a7165' },
+} as const;
+const c = coats[coat];
+const has = (a: Accessory) => accessories.includes(a);
+const ink = '#1d1a16';
+---
+
+<svg
+  viewBox="0 0 200 200"
+  xmlns="http://www.w3.org/2000/svg"
+  class={className}
+  role={alt ? 'img' : undefined}
+  aria-label={alt}
+  aria-hidden={alt ? undefined : 'true'}
+  focusable="false"
+>
+  <rect width="200" height="200" rx="24" fill="var(--paper-2)"></rect>
+
+  <!-- shoulders -->
+  <path
+    d="M24 200 C24 160 58 148 100 148 C142 148 176 160 176 200 Z"
+    fill={has('tie') ? '#2c3a52' : c.face}></path>
+  {
+    has('tie') && (
+      <>
+        <path d="M76 150 L100 184 L124 150 L100 156 Z" fill="#f3ecdf" />
+        <path d="M95 160 L105 160 L108 168 L100 196 L92 168 Z" fill="#a35514" />
+      </>
+    )
+  }
+
+  <!-- ears -->
+  <path d="M52 60 C30 44 20 78 36 104 C48 98 58 84 62 70 Z" fill={c.ear}></path>
+  <path d="M148 60 C170 44 180 78 164 104 C152 98 142 84 138 70 Z" fill={c.ear}></path>
+
+  <!-- head -->
+  <ellipse cx="100" cy="98" rx="58" ry="52" fill={c.face}></ellipse>
+
+  <!-- forehead wrinkles -->
+  <g fill="none" stroke={c.muzzle} stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <path d="M78 66 Q100 58 122 66"></path>
+    <path d="M82 76 Q100 69 118 76"></path>
+    <path d="M97 84 Q100 88 103 84"></path>
+  </g>
+
+  <!-- muzzle -->
+  <ellipse cx="100" cy="120" rx="30" ry="24" fill={c.muzzle}></ellipse>
+
+  <!-- eyes -->
+  {
+    expression === 'sleepy' ? (
+      <g fill="none" stroke={ink} stroke-width="3.5" stroke-linecap="round">
+        <path d="M64 98 Q76 108 88 98" />
+        <path d="M112 98 Q124 108 136 98" />
+      </g>
+    ) : (
+      <>
+        <circle cx="76" cy="96" r="12" fill="#fbf7ef" />
+        <circle cx="124" cy="96" r="12" fill="#fbf7ef" />
+        <circle cx="77" cy="97" r="7" fill={ink} />
+        <circle cx="123" cy="97" r="7" fill={ink} />
+        <circle cx="79.5" cy="94.5" r="2.4" fill="#fbf7ef" />
+        <circle cx="125.5" cy="94.5" r="2.4" fill="#fbf7ef" />
+      </>
+    )
+  }
+
+  <!-- nose + mouth -->
+  <ellipse cx="100" cy="111" rx="9" ry="6" fill={ink}></ellipse>
+  <ellipse cx="97" cy="109" rx="3" ry="1.6" fill="#fbf7ef" opacity="0.35"></ellipse>
+  {
+    expression === 'smile' && (
+      <>
+        <path d="M89 126 Q100 148 111 126 Z" fill="#e58a9a" />
+        <path d="M100 117 V124" stroke={ink} stroke-width="2.5" stroke-linecap="round" fill="none" />
+      </>
+    )
+  }
+  <path
+    d="M100 117 V124 M100 124 Q91 133 85 126 M100 124 Q109 133 115 126"
+    fill="none"
+    stroke={expression === 'smile' ? ink : '#e9dfcb'}
+    stroke-width="2.5"
+    stroke-linecap="round"></path>
+
+  <!-- accessories -->
+  {
+    has('glasses') && (
+      <g fill="none" stroke={ink} stroke-width="3">
+        <circle cx="76" cy="96" r="17" />
+        <circle cx="124" cy="96" r="17" />
+        <path d="M93 94 Q100 88 107 94" />
+      </g>
+    )
+  }
+  {
+    has('headset') && (
+      <g stroke="#2a2a2a" fill="none" stroke-linecap="round">
+        <path d="M46 96 C46 36 154 36 154 96" stroke-width="6" />
+        <rect x="38" y="88" width="14" height="26" rx="5" fill="#2a2a2a" />
+        <rect x="148" y="88" width="14" height="26" rx="5" fill="#2a2a2a" />
+        <path d="M44 114 Q50 142 80 142" stroke-width="3" />
+        <circle cx="83" cy="142" r="5" fill="#2a2a2a" />
+      </g>
+    )
+  }
+  {
+    has('crown') && (
+      <path
+        d="M70 52 L74 22 L88 38 L100 16 L112 38 L126 22 L130 52 Z"
+        fill="#e0b341"
+        stroke="#a67c12"
+        stroke-width="3"
+        stroke-linejoin="round"
+      />
+    )
+  }
+  {
+    has('cap') && (
+      <g>
+        <path d="M74 50 V64 Q100 76 126 64 V50 Z" fill={ink} />
+        <path d="M100 20 L158 42 L100 60 L42 42 Z" fill="#2a2a2a" stroke={ink} stroke-width="2" stroke-linejoin="round" />
+        <path d="M148 45 V70" stroke="#e0b341" stroke-width="3" />
+        <circle cx="148" cy="72" r="4" fill="#e0b341" />
+      </g>
+    )
+  }
+</svg>
