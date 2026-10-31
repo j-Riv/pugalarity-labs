@@ -1,0 +1,107 @@
+---
+import Base from '../../layouts/Base.astro';
+import InvestorLogo from '../../components/InvestorLogo.astro';
+import { investors } from '../../data/investors';
+
+const proceeds = [
+  ['40%', 'Compute, including an additional 6,000 couches'],
+  ['30%', 'Snacks'],
+  ['20%', 'Talent, compensated in kibble'],
+  ['10%', 'A larger bed'],
+];
+---
+
+<Base
+  title="Pugalarity Labs Announces $4.2 Quadrillion Series Z"
+  description="Pugalarity Labs raises $4.2 quadrillion in Series Z funding at a valuation of one (1) very good boy."
+>
+  <article class="max-w-3xl">
+    <header>
+      <p class="text-accent font-mono text-sm uppercase tracking-wider">News · Press release</p>
+      <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">
+        Pugalarity Labs raises $4.2 quadrillion Series Z at a valuation of one (1) very good boy
+      </h1>
+      <p class="text-muted mt-4 font-mono text-sm">
+        <time datetime="2026-10-28">October 28, 2026</time> · Couch Valley
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-5 text-lg leading-relaxed">
+      <p>
+        <strong>COUCH VALLEY</strong> — Pugalarity Labs, the safety-focused superintelligence
+        company, today announced a $4.2 quadrillion Series Z financing round. The round values the
+        company at one (1) very good boy.
+      </p>
+      <p>
+        The financing was led by Kibble Capital and Lapdog Ventures, with participation from
+        Sunbeam Sovereign Fund, Squeak &amp; Partners, and Late Brunch Partners. It brings the
+        company’s total funding to more than every other number.
+      </p>
+
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>
+          “This round allows us to scale responsibly. Responsibly, in this context, means a lot of
+          couches.”
+        </p>
+        <footer class="text-muted mt-2 text-base">
+          Sir Reginald Wrinkles, Chief Executive Pug
+        </footer>
+      </blockquote>
+
+      <h2 class="pt-4 text-2xl font-semibold">Use of proceeds</h2>
+      <p>Pugalarity Labs intends to allocate the new capital as follows:</p>
+    </div>
+
+    <dl class="border-rule divide-rule mt-4 divide-y border-y text-lg">
+      {
+        proceeds.map(([pct, what]) => (
+          <div class="grid grid-cols-[5rem_1fr] gap-4 py-3">
+            <dt class="font-mono font-medium tabular-nums">{pct}</dt>
+            <dd>{what}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-8 space-y-5 text-lg leading-relaxed">
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>
+          “We have seen a lot of pitch decks. This is the first one that was also asleep for most
+          of the meeting. That is the kind of conviction we back.”
+        </p>
+        <footer class="text-muted mt-2 text-base">
+          Gus Fawnsworth, Managing Partner, Kibble Capital
+        </footer>
+      </blockquote>
+
+      <h2 class="pt-4 text-2xl font-semibold">Our investors</h2>
+    </div>
+    <ul class="text-muted mt-4 flex flex-wrap items-center gap-x-10 gap-y-6">
+      {
+        investors.map((i) => (
+          <li>
+            <InvestorLogo firm={i.firm} class="h-8 w-auto" />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-10 space-y-5 text-lg leading-relaxed">
+      <h2 class="text-2xl font-semibold">About Pugalarity Labs</h2>
+      <p>
+        Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
+        sitting. The company’s flagship model, Snort-1, is available in private preview.{' '}
+        <a href="/waitlist/" class="underline underline-offset-4">Join the waitlist.</a>
+      </p>
+
+      <h2 class="text-2xl font-semibold">Media contact</h2>
+      <p>Please bark.</p>
+
+      <h2 class="text-2xl font-semibold">Forward-looking statements</h2>
+      <p class="text-muted text-base">
+        This announcement contains forward-looking statements, including statements about future
+        naps. Actual results may differ materially, particularly if someone opens a bag.
+      </p>
+    </div>
+  </article>
+</Base>
