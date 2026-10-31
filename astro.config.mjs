@@ -21,10 +21,15 @@ export default defineConfig({
         "form-action 'self'"
       ],
       styleDirective: {
-        resources: ["'self'", { resource: "'unsafe-inline'", kind: 'attribute' }]
+        resources: [
+          { resource: "'self'", kind: 'element' },
+          { resource: "'unsafe-inline'", kind: 'attribute' }
+        ]
       }
     }
   },
+  // The site has no code blocks. Shiki's inline styles conflict with CSP and warn on every build.
+  markdown: { syntaxHighlight: false },
   vite: {
     plugins: [tailwindcss()]
   }

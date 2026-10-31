@@ -12,6 +12,8 @@ interface Props {
 const { title, description = 'Aligning the future with snacks.' } = Astro.props;
 const fullTitle = title === 'Pugalarity Labs' ? title : `${title} · Pugalarity Labs`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Social crawlers need an absolute image URL and a raster format (they ignore SVG).
+const ogImage = new URL('/og-image.png', Astro.site);
 
 const nav = [
   { href: '/research/', label: 'Research' },
@@ -43,6 +45,14 @@ const path = Astro.url.pathname;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pugalarity Labs" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Pugalarity Labs: Aligning the future with snacks. A pug in a suit and tie." />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body class="flex min-h-screen flex-col">

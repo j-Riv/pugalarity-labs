@@ -9,7 +9,11 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:links": "linkinator dist --recurse --check-fragments --skip \"^https://pugalaritylabs\\.com\"",
+    "check:external": "node scripts/check-external.mjs",
+    "check:lighthouse": "lhci autorun",
+    "check": "npm run build && npm run check:links && npm run check:external && npm run check:lighthouse"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -18,6 +22,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@lhci/cli": "^0.15.1",
+    "linkinator": "^8.1.0",
     "typescript": "^6.0.3"
   }
 }

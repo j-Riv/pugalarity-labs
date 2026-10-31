@@ -20,20 +20,23 @@ import PageHeader from '../components/PageHeader.astro';
       </h2>
     </div>
 
-    <!-- role="log" announces each added message to screen readers. tabindex="0" lets
-         keyboard users scroll the conversation. -->
-    <ul
+    <!-- role="log" announces each added message to screen readers, and tabindex="0" lets
+         keyboard users scroll the conversation. The role can't sit on a <ul> (it would
+         strip the list semantics), so the list lives inside this wrapper. -->
+    <div
       data-chat-log
       role="log"
       aria-label="Conversation with Snort-1"
       aria-live="polite"
       tabindex="0"
-      class="h-96 space-y-3 overflow-y-auto px-5 py-4"
+      class="h-96 overflow-y-auto px-5 py-4"
     >
-      <li class="bg-paper border-rule mr-10 rounded-lg border px-4 py-2">
-        <span class="sr-only">Snort-1: </span>snrk.
-      </li>
-    </ul>
+      <ul data-chat-list class="space-y-3">
+        <li class="bg-paper border-rule mr-10 rounded-lg border px-4 py-2">
+          <span class="sr-only">Snort-1: </span>snrk.
+        </li>
+      </ul>
+    </div>
 
     <p data-chat-thinking hidden aria-hidden="true" class="text-muted px-5 pb-3 font-mono text-sm"></p>
 
@@ -66,6 +69,7 @@ import PageHeader from '../components/PageHeader.astro';
   // Everything here runs in the browser. There is no network call and no storage.
   const root = document.querySelector<HTMLElement>('[data-chat]');
   const log = root?.querySelector<HTMLElement>('[data-chat-log]');
+  const list = root?.querySelector<HTMLElement>('[data-chat-list]');
   const form = root?.querySelector<HTMLFormElement>('[data-chat-form]');
   const input = root?.querySelector<HTMLInputElement>('#chat-input');
   const thinking = root?.querySelector<HTMLElement>('[data-chat-thinking]');
@@ -113,7 +117,7 @@ import PageHeader from '../components/PageHeader.astro';
     label.textContent = `${who}: `;
     // textContent, never innerHTML: whatever is typed is shown as plain text.
     li.append(label, document.createTextNode(text));
-    log?.append(li);
+    list?.append(li);
     if (log) log.scrollTop = log.scrollHeight;
   };
 
