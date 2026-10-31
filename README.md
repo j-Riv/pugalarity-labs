@@ -2,7 +2,7 @@
 
 Pugalarity Labs: Artificial Intelligence, Questionable Intelligence. A satirical AI startup site built with Astro, TypeScript and Tailwind.
 
-Source for [pugalaritylabs.com](https://pugalaritylabs.com). A static [Astro](https://astro.build) site with TypeScript and Tailwind CSS. No backend, no analytics, no data collection, no secrets.
+Source for [pugalaritylabs.com](https://pugalaritylabs.com). A static [Astro](https://astro.build) site with TypeScript and Tailwind CSS. No backend, no accounts, no personal data collection, no secrets. The only analytics is Cloudflare Web Analytics (cookieless page-view counts).
 
 ## Requirements
 
@@ -82,4 +82,4 @@ Netlify also works with no adapter: build command `npm run build`, publish direc
 
 ## Content rules
 
-See `CLAUDE.md`. Original art only (our own SVG/CSS and generated images); invented names only; nothing leaves the page.
+See `CLAUDE.md`. Original art only (our own SVG/CSS and generated images); invented names only; nothing personal leaves the page (the one exception is the Cloudflare Web Analytics beacon).

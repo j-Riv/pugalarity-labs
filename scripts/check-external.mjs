@@ -1,11 +1,14 @@
 // Fails if the built site references any off-site URL. The site must make no
 // third-party requests and carry no tracking. Allowed: the SVG and sitemap XML namespaces
-// (identifiers, never fetched), and the site's own domain.
+// (identifiers, never fetched), the site's own domain, and the Cloudflare Web Analytics beacon.
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
 const DIST = 'dist';
 const ALLOWED = [/^https?:\/\/www\.w3\.org\/2000\/svg/, /^https?:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9/, /^https:\/\/pugalaritylabs\.com(\/|$)/,
+  // The beacon script, and the two hosts named in the CSP meta tag (the URL match can end in `;`).
+  /^https:\/\/static\.cloudflareinsights\.com(\/beacon\.min\.js)?[;]?$/,
+  /^https:\/\/cloudflareinsights\.com;?$/,
 ];
 const TEXT = new Set(['.html', '.css', '.js', '.svg', '.txt', '.json', '.xml']);
 

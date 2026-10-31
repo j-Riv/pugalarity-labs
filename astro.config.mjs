@@ -18,8 +18,13 @@ export default defineConfig({
         "img-src 'self' data:",
         "object-src 'none'",
         "base-uri 'self'",
-        "form-action 'self'"
+        "form-action 'self'",
+        // Cloudflare Web Analytics beacon: loads from the first host, reports to the second.
+        "connect-src 'self' https://cloudflareinsights.com"
       ],
+      scriptDirective: {
+        resources: ["'self'", 'https://static.cloudflareinsights.com']
+      },
       styleDirective: {
         resources: [
           { resource: "'self'", kind: 'element' },

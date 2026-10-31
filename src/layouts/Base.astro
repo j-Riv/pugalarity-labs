@@ -187,6 +187,13 @@ const path = Astro.url.pathname;
 
     <CookieBanner />
 
+    <!-- Cloudflare Web Analytics: cookieless page-view counts. Keep this the only beacon on the page. -->
+    <script
+      is:inline
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "d68075d26d5d42c895aba54279a0df1a"}'></script>
+
     <script>
       // The saved choice and the initial data-theme are handled by the inline script in <head>.
       // A toggle's pressed state means "dark mode is on". The header has two (desktop and menu).
