@@ -1,11 +1,12 @@
 // Fails if the built site references any off-site URL. The site must make no
-// third-party requests and carry no tracking. Allowed: the SVG XML namespace
-// (an identifier, never fetched) and the site's own domain.
+// third-party requests and carry no tracking. Allowed: the SVG and sitemap XML namespaces
+// (identifiers, never fetched), and the site's own domain.
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
 const DIST = 'dist';
-const ALLOWED = [/^https?:\/\/www\.w3\.org\/2000\/svg/, /^https:\/\/pugalaritylabs\.com(\/|$)/];
+const ALLOWED = [/^https?:\/\/www\.w3\.org\/2000\/svg/, /^https?:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9/, /^https:\/\/pugalaritylabs\.com(\/|$)/,
+];
 const TEXT = new Set(['.html', '.css', '.js', '.svg', '.txt', '.json', '.xml']);
 
 const walk = (dir) =>

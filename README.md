@@ -76,6 +76,8 @@ Spoilers. Triggers are matched against the whole message (case-insensitive), so 
 
 `astro.config.mjs` sets `site` and deliberately no `base`. A `base` breaks routing on a custom domain.
 
+`/sitemap.xml` is generated at build from the files in `src/pages` (`src/pages/sitemap.xml.ts`, no dependency) and is listed in `public/robots.txt`. To get indexed, add the domain in Google Search Console, verify it with the DNS TXT record (so nothing goes in the repo), and submit `https://pugalaritylabs.com/sitemap.xml`.
+
 Netlify also works with no adapter: build command `npm run build`, publish directory `dist`.
 
 ## Content rules
