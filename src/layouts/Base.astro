@@ -5,6 +5,7 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import logo from '../assets/brand/pugalarity-labs-logo.png';
+import logoLight from '../assets/brand/pugalarity-labs-logo-light.png';
 import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
@@ -90,7 +91,8 @@ const path = Astro.url.pathname;
     <header class="border-rule border-b">
       <div class="mx-auto flex max-w-5xl flex-wrap items-center gap-x-3 gap-y-3 px-4 py-4 lg:gap-x-5">
         <a href="/" class="order-1 mr-auto block shrink-0">
-          <Image src={logo} alt="Pugalarity Labs" width={600} loading="eager" class="h-12 w-auto sm:h-14" />
+          <Image src={logo} alt="Pugalarity Labs" width={600} loading="eager" class="hidden h-12 w-auto sm:h-14 dark:block" />
+          <Image src={logoLight} alt="Pugalarity Labs" width={600} loading="eager" class="block h-12 w-auto sm:h-14 dark:hidden" />
         </a>
         <div
           id="site-menu"
