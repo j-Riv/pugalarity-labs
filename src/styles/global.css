@@ -1,12 +1,22 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. The raw values live on :root and flip under
- * prefers-color-scheme: dark, so utilities like `bg-paper` or `text-ink`
- * adapt without a `dark:` prefix on every element.
+ * Design tokens. The raw values live on :root, which is the dark theme (the default). The
+ * light theme is applied by data-theme="light" on <html>, set by the theme toggle and by the
+ * inline script in Base.astro before first paint. Utilities like `bg-paper` or `text-ink`
+ * read these variables, so they adapt without a `dark:` prefix on every element.
  * `@theme inline` tells Tailwind to emit var(--paper) instead of copying the value.
  */
 :root {
+  --paper: #1a1714;
+  --paper-2: #24201b;
+  --ink: #f3ecdf;
+  --muted: #b5aa98;
+  --rule: #3d362d;
+  --accent: #e8a863;
+}
+
+:root[data-theme='light'] {
   --paper: #faf6ee;
   --paper-2: #f1eadb;
   --ink: #1d1a16;
@@ -15,16 +25,8 @@
   --accent: #a35514;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #1a1714;
-    --paper-2: #24201b;
-    --ink: #f3ecdf;
-    --muted: #b5aa98;
-    --rule: #3d362d;
-    --accent: #e8a863;
-  }
-}
+/* Tailwind's `dark:` variant follows the same switch (dark unless data-theme="light"). */
+@custom-variant dark (&:where(:root:not([data-theme='light']) *));
 
 @theme inline {
   --color-paper: var(--paper);
@@ -41,7 +43,11 @@
 
 @layer base {
   html {
-    color-scheme: light dark;
+    color-scheme: dark;
+  }
+
+  html[data-theme='light'] {
+    color-scheme: light;
   }
 
   body {

@@ -120,12 +120,11 @@ const ratio = (src.width / src.height).toFixed(4);
     -webkit-mask-image: radial-gradient(ellipse var(--tint-rx) 68% at var(--tint-x) 50%, transparent 55%, #000 100%);
     mask-image: radial-gradient(ellipse var(--tint-rx) 68% at var(--tint-x) 50%, transparent 55%, #000 100%);
   }
-  @media (prefers-color-scheme: dark) {
-    /* lighten = per-channel max(photo, page): shadows darker than the page become the page. */
-    .bleed-tint {
-      mix-blend-mode: lighten;
-      opacity: 1;
-    }
+  /* Dark theme (the default): lighten = per-channel max(photo, page), so shadows darker than
+     the page become the page. */
+  :root:not([data-theme='light']) .bleed-tint {
+    mix-blend-mode: lighten;
+    opacity: 1;
   }
   .bleed-scrim {
     display: none;
