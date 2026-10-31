@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. The raw values live on :root and flip under
+ * prefers-color-scheme: dark, so utilities like `bg-paper` or `text-ink`
+ * adapt without a `dark:` prefix on every element.
+ * `@theme inline` tells Tailwind to emit var(--paper) instead of copying the value.
+ */
+:root {
+  --paper: #faf6ee;
+  --paper-2: #f1eadb;
+  --ink: #1d1a16;
+  --muted: #5e564b;
+  --rule: #d6cbb6;
+  --accent: #a35514;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1714;
+    --paper-2: #24201b;
+    --ink: #f3ecdf;
+    --muted: #b5aa98;
+    --rule: #3d362d;
+    --accent: #e8a863;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+
+  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif tracking-tight;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

@@ -55,3 +55,12 @@ Backups.backupdb
 .MobileBackups.trash
 MobileBackups.trash
 tmbootpicker.efi
+# Node / Astro
+dist/
+.astro/
+node_modules/
+npm-debug.log*
+.env
+.env.production
+.idea/
+.lighthouseci/

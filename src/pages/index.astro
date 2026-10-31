@@ -1,0 +1,22 @@
+---
+// A file in src/pages/ becomes a route; this one is "/". It wraps its content in Base.
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Pugalarity Labs">
+  <section class="py-12">
+    <h1 class="max-w-3xl text-5xl font-semibold leading-tight sm:text-6xl">
+      Aligning the future with snacks.
+    </h1>
+    <p class="text-muted mt-6 max-w-2xl text-lg">
+      Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
+      sitting.
+    </p>
+    <a
+      href="/waitlist/"
+      class="bg-accent text-paper mt-8 inline-block rounded px-5 py-3 font-medium hover:opacity-90"
+    >
+      Join the waitlist
+    </a>
+  </section>
+</Base>
