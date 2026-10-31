@@ -1,6 +1,7 @@
 // The Snort-1 "model": a keyword matcher over the prewritten replies in src/data/snort.ts.
 // It never composes text. It picks an entry, and avoids repeating the one it just gave.
 import { categories, fallbacks, models, starters, thinkingStatuses, type ModelId } from '../data/snort';
+import { snort2, snort2Bank } from '../data/easter-eggs';
 
 export interface Reply {
   text: string;
@@ -35,16 +36,24 @@ export function createEngine(rng: () => number = Math.random) {
     const wanted = normalize(input);
     const starter = starters.find((s) => normalize(s.prompt) === wanted);
     if (starter) {
-      const text = starter.replies[model];
+      const text = model === 'snort-2' ? snort2Bank.starters[starter.prompt] : starter.replies[model];
       lastAny = text;
       return { text, source: 'starter' };
     }
-    for (const category of categories) {
-      if (category.pattern.test(input)) {
-        return { text: pick(`${category.id}:${model}`, category.replies[model]), source: category.id };
+    // The unlockable model uses this same engine; it has a few categories of its own, tried first.
+    if (model === 'snort-2') {
+      for (const extra of snort2Bank.extra) {
+        if (extra.pattern.test(input)) return { text: pick(`${extra.id}:${model}`, extra.replies), source: extra.id };
       }
     }
-    return { text: pick(`fallback:${model}`, fallbacks[model]), source: 'fallback' };
+    for (const category of categories) {
+      if (category.pattern.test(input)) {
+        const pool = model === 'snort-2' ? snort2Bank.categories[category.id] : category.replies[model];
+        return { text: pick(`${category.id}:${model}`, pool), source: category.id };
+      }
+    }
+    const pool = model === 'snort-2' ? snort2Bank.fallbacks : fallbacks[model];
+    return { text: pick(`fallback:${model}`, pool), source: 'fallback' };
   };
 
   return { reply };
@@ -52,7 +61,7 @@ export function createEngine(rng: () => number = Math.random) {
 
 /** Simulated thinking time for a model, in ms. */
 export function thinkDelay(model: ModelId, rng: () => number = Math.random) {
-  const [min, max] = models.find((m) => m.id === model)?.thinkMs ?? [1000, 1500];
+  const [min, max] = [...models, snort2].find((m) => m.id === model)?.thinkMs ?? [1000, 1500];
   return Math.round(min + rng() * (max - min));
 }
 

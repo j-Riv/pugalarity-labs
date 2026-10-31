@@ -1,7 +1,9 @@
 // Content for the Snort-1 playground. Every reply the playground can give is written here.
 // Nothing is generated: src/lib/snort.ts only picks from these lists.
 
-export type ModelId = 'snort-1' | 'snort-1-mini' | 'snort-1-pro';
+export type PublicModelId = 'snort-1' | 'snort-1-mini' | 'snort-1-pro';
+/** Includes the model that src/data/easter-eggs.ts unlocks. */
+export type ModelId = PublicModelId | 'snort-2';
 
 export interface Model {
   id: ModelId;
@@ -46,7 +48,7 @@ export const models: Model[] = [
   },
 ];
 
-type Replies = Record<ModelId, string[]>;
+type Replies = Record<PublicModelId, string[]>;
 
 export interface Category {
   id: string;
@@ -57,7 +59,7 @@ export interface Category {
 
 export interface Starter {
   prompt: string;
-  replies: Record<ModelId, string>;
+  replies: Record<PublicModelId, string>;
 }
 
 export const starters: Starter[] = [
