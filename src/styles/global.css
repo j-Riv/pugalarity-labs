@@ -82,3 +82,14 @@
     }
   }
 }
+
+/* Header menu: below lg the nav sits in a dropdown that the menu button opens. Without JS the
+   nav just shows stacked and the button is hidden. Unlayered so it beats the display utilities. */
+:root:not([data-js]) [data-menu-toggle] {
+  display: none;
+}
+@media (max-width: 1023.98px) {
+  :root[data-js] [data-menu]:not([data-open]) {
+    display: none;
+  }
+}
