@@ -55,7 +55,7 @@ Dark is the default and ignores the operating system's setting. The header toggl
 
 ## Playground
 
-`/playground` is a simulated chat, not a real model. Every reply lives in `src/data/snort.ts` (three models, keyword categories with per-model replies, fallbacks, the four starter prompts, and the status and thinking lines). `src/lib/snort.ts` only matches keywords and picks an entry, never repeating the previous one. To add or change a joke, edit the data file; categories are tried in order, so put specific patterns before broad ones. There is no network call: the only thing stored is the fake "treat allowance" count, in `sessionStorage` for the tab.
+`/playground` is a simulated chat, not a real model. Every reply lives in `src/data/snort.ts` (three models, keyword categories with per-model replies, fallbacks, the four starter prompts, and the status and thinking lines). `src/lib/snort.ts` only matches keywords and picks an entry, never repeating the previous one. To add or change a joke, edit the data file; categories are tried in order, so put specific patterns before broad ones. There is no network call: the only thing stored is the fake "treat allowance" count, in `sessionStorage` for the tab. The playground also has a few hidden interactions; their content is in `src/data/easter-eggs.ts` and their trigger logic in `src/lib/easter-eggs.ts`, kept apart from the public reply library. They are not documented here on purpose.
 
 ## Deploying to GitHub Pages
 

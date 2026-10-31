@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '../data/snort';
+import { nap, terminal } from '../data/easter-eggs';
 ---
 
 <Base
@@ -38,7 +39,7 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
 
     <div class="border-rule text-muted flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-5 py-2 font-mono text-xs">
       <p class="flex items-center gap-2">
-        <span aria-hidden="true" class="bg-accent inline-block h-2 w-2 rounded-full"></span>
+        <span data-chat-dot aria-hidden="true" class="bg-accent inline-block h-2 w-2 rounded-full"></span>
         <span class="sr-only">System status: operational.</span>
         <span data-chat-status aria-hidden="true">{systemStatuses[0]}</span>
       </p>
@@ -50,18 +51,73 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
       </p>
     </div>
 
-    <!-- role="log" announces each added message to screen readers, and tabindex="0" lets
-         keyboard users scroll the conversation. The role can't sit on a <ul> (it would
-         strip the list semantics), so the list lives inside this wrapper. -->
-    <div
-      data-chat-log
-      role="log"
-      aria-label="Conversation with Snort-1"
-      aria-live="polite"
-      tabindex="0"
-      class="h-96 overflow-y-auto px-5 py-4 md:h-[28rem]"
-    >
-      <ul data-chat-list class="space-y-3"></ul>
+    <div class="relative">
+      <!-- role="log" announces each added message to screen readers, and tabindex="0" lets
+           keyboard users scroll the conversation. The role can't sit on a <ul> (it would
+           strip the list semantics), so the list lives inside this wrapper. -->
+      <div
+        data-chat-log
+        role="log"
+        aria-label="Conversation with Snort-1"
+        aria-live="polite"
+        tabindex="0"
+        class="h-96 overflow-y-auto px-5 py-4 md:h-[28rem]"
+      >
+        <ul data-chat-list class="space-y-3"></ul>
+      </div>
+
+      <!-- Hidden interactions. These sit over the conversation (which is made inert, not
+           removed) and are shown by the script only. -->
+      <section
+        data-chat-sequence
+        hidden
+        tabindex="-1"
+        aria-labelledby="chat-sequence-title"
+        class="bg-paper-2 absolute inset-0 z-10 flex flex-col overflow-y-auto px-5 py-4 font-mono text-sm"
+      >
+        <p data-seq-system class="chat-seq-system text-xs tracking-widest"></p>
+        <h3 id="chat-sequence-title" data-seq-heading class="chat-seq-heading mt-1 text-lg font-semibold"></h3>
+        <div data-seq-lines aria-hidden="true" class="mt-3 whitespace-pre-wrap"></div>
+        <div class="mt-auto pt-4">
+          <p data-seq-label aria-hidden="true" class="text-muted mb-1 text-xs"></p>
+          <div aria-hidden="true" class="bg-rule h-1.5 overflow-hidden rounded-full">
+            <span data-seq-bar class="chat-seq-fill block h-full w-0"></span>
+          </div>
+          <button
+            type="button"
+            data-seq-button
+            hidden
+            class="bg-accent text-paper mt-4 rounded px-5 py-2.5 font-sans font-medium hover:opacity-90"
+          ></button>
+        </div>
+      </section>
+
+      <section
+        data-chat-terminal
+        hidden
+        aria-label="Developer console"
+        class="chat-term absolute inset-0 z-10 flex flex-col font-mono text-sm"
+      >
+        <div class="chat-term-head flex items-center justify-between gap-3 px-4 py-2 text-xs">
+          <span aria-hidden="true">PUGALARITY LABS OS</span>
+          <button type="button" data-term-exit class="chat-term-exit rounded px-2 py-1">
+            Exit Developer Mode
+          </button>
+        </div>
+        <div data-term-out role="log" tabindex="0" class="grow overflow-y-auto px-4 py-3 break-words whitespace-pre-wrap"></div>
+        <form data-term-form class="chat-term-head flex items-center gap-2 px-4 py-2">
+          <label for="term-input" class="chat-term-prompt shrink-0">{terminal.prompt}</label>
+          <input
+            id="term-input"
+            type="text"
+            maxlength="80"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            class="min-w-0 flex-1 bg-transparent text-base outline-none"
+          />
+        </form>
+      </section>
     </div>
 
     <p data-chat-thinking hidden aria-hidden="true" class="text-muted px-5 pb-3 font-mono text-sm">
@@ -86,6 +142,13 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
           ))
         }
       </ul>
+    </div>
+
+    <div data-chat-sleep hidden class="border-rule flex items-center justify-between gap-4 border-t px-5 py-3">
+      <p aria-hidden="true" class="chat-zzz text-muted font-mono text-lg"><span>Z</span><span>z</span><span>z</span><span>.</span><span>.</span><span>.</span></p>
+      <button type="button" data-chat-wake class="bg-accent text-paper rounded px-5 py-2.5 font-medium hover:opacity-90">
+        {nap.wake}
+      </button>
     </div>
 
     <form data-chat-form class="border-rule flex gap-3 border-t p-4">
@@ -146,13 +209,135 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
       }
     }
   }
+
+  /* Hidden interactions. --alert is a red that stays readable on both themes' card backgrounds. */
+  [data-chat] {
+    --alert: #ff7a6e;
+  }
+  :root[data-theme='light'] [data-chat] {
+    --alert: #b3261e;
+  }
+  [data-chat][data-state='emergency'] {
+    border-color: var(--alert);
+  }
+  [data-chat][data-state='emergency'] [data-chat-dot],
+  [data-chat][data-state='emergency'] .chat-seq-fill {
+    background: var(--alert);
+  }
+  [data-chat][data-state='emergency'] .chat-seq-system,
+  [data-chat][data-state='emergency'] .chat-seq-heading {
+    color: var(--alert);
+  }
+  .chat-seq-system {
+    color: var(--muted);
+  }
+  .chat-seq-fill {
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  [data-chat][data-state='asleep'] [data-chat-log] {
+    opacity: 0.7;
+    transition: opacity 0.4s;
+  }
+
+  /* The developer console is its own dark screen in both themes. */
+  .chat-term {
+    background: #12100d;
+    color: #e6dcc8;
+    border-radius: inherit;
+  }
+  .chat-term-head {
+    background: #1b1814;
+    border-color: #3d362d;
+    color: #b5aa98;
+  }
+  .chat-term > .chat-term-head:first-child {
+    border-bottom: 1px solid #3d362d;
+  }
+  .chat-term > form.chat-term-head {
+    border-top: 1px solid #3d362d;
+  }
+  .chat-term-prompt {
+    color: #e8a863;
+  }
+  .chat-term-exit {
+    border: 1px solid #3d362d;
+    color: #e6dcc8;
+  }
+  .chat-term-exit:hover {
+    border-color: #e8a863;
+  }
+  .chat-term input {
+    color: #e6dcc8;
+    caret-color: #e8a863;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-chat][data-state='emergency'] [data-chat-dot] {
+      animation: chat-pulse 1s infinite;
+    }
+    .chat-shake {
+      animation: chat-shake 0.4s;
+    }
+    .chat-zzz span {
+      display: inline-block;
+      animation: chat-zzz 2.4s infinite;
+    }
+    .chat-zzz span:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+    .chat-zzz span:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    .chat-zzz span:nth-child(4) {
+      animation-delay: 0.9s;
+    }
+    .chat-zzz span:nth-child(5) {
+      animation-delay: 1.2s;
+    }
+    .chat-zzz span:nth-child(6) {
+      animation-delay: 1.5s;
+    }
+    @keyframes chat-pulse {
+      50% {
+        opacity: 0.25;
+      }
+    }
+    @keyframes chat-shake {
+      20% {
+        transform: translateX(-4px);
+      }
+      40% {
+        transform: translateX(4px);
+      }
+      60% {
+        transform: translateX(-3px);
+      }
+      80% {
+        transform: translateX(3px);
+      }
+    }
+    @keyframes chat-zzz {
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: translateY(2px);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-3px);
+      }
+    }
+  }
 </style>
 
 <script>
   // Everything here runs in the browser. There is no network call. The only thing stored is the
   // remaining "treat allowance", in sessionStorage for this tab.
   import { DAILY_ALLOWANCE, limitMessage, models, systemStatuses, type ModelId } from '../data/snort';
+  import { nap, snort2, squirrelAlert, terminal, unlock } from '../data/easter-eggs';
   import { createEngine, thinkDelay, thinkingStatus } from '../lib/snort';
+  import { createEggs, runCommand } from '../lib/easter-eggs';
 
   const root = document.querySelector<HTMLElement>('[data-chat]');
   const q = <T extends HTMLElement>(selector: string) => root?.querySelector<T>(selector) ?? null;
@@ -172,11 +357,27 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
   const sr = q('[data-chat-sr]');
   const startersBox = q('[data-chat-starters]');
   const starterButtons = Array.from(root?.querySelectorAll<HTMLButtonElement>('[data-chat-starter]') ?? []);
+  // hidden interactions
+  const sequence = q('[data-chat-sequence]');
+  const seqSystem = q('[data-seq-system]');
+  const seqHeading = q('[data-seq-heading]');
+  const seqLines = q('[data-seq-lines]');
+  const seqLabel = q('[data-seq-label]');
+  const seqBar = q('[data-seq-bar]');
+  const seqButton = q<HTMLButtonElement>('[data-seq-button]');
+  const term = q('[data-chat-terminal]');
+  const termOut = q('[data-term-out]');
+  const termForm = q<HTMLFormElement>('[data-term-form]');
+  const termInput = q<HTMLInputElement>('#term-input');
+  const termExit = q<HTMLButtonElement>('[data-term-exit]');
+  const sleepBar = q('[data-chat-sleep]');
+  const wakeButton = q<HTMLButtonElement>('[data-chat-wake]');
 
   const engine = createEngine();
+  const eggs = createEggs();
   const STORAGE_KEY = 'snort-treats';
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const model = () => models.find((m) => m.id === (select?.value as ModelId)) ?? models[0];
+  const model = () => [...models, snort2].find((m) => m.id === (select?.value as ModelId)) ?? models[0];
 
   // --- allowance (per tab) ---
   const readAllowance = () => {
@@ -203,11 +404,20 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
     renderAllowance();
   };
 
-  // --- rotating system status (decorative) ---
+  // --- rotating system status (decorative). A special mode can hold it on its own text. ---
   let statusIndex = 0;
+  let statusOverride: string | null = null;
+  const showStatus = () => {
+    if (status) status.textContent = statusOverride ?? systemStatuses[statusIndex];
+  };
   const nextStatus = () => {
+    if (statusOverride) return;
     statusIndex = (statusIndex + 1) % systemStatuses.length;
-    if (status) status.textContent = systemStatuses[statusIndex];
+    showStatus();
+  };
+  const holdStatus = (text: string | null) => {
+    statusOverride = text;
+    showStatus();
   };
   if (!reducedMotion()) window.setInterval(nextStatus, 6000);
 
@@ -267,9 +477,11 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
   let busy = false;
   let exhausted = false;
   let started = false; // true once something has been asked in this conversation
+  // 'normal' unless a hidden interaction is on screen; chat input stays off until it is dismissed.
+  let mode: 'normal' | 'alert' | 'unlock' | 'asleep' | 'terminal' = 'normal';
 
   const setControls = () => {
-    const off = busy || exhausted;
+    const off = busy || exhausted || mode !== 'normal';
     if (input) input.disabled = off;
     if (send) send.disabled = off;
     starterButtons.forEach((b) => (b.disabled = off));
@@ -303,9 +515,211 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
     setControls();
   };
 
+  // Back to ordinary chat after a reply or after a hidden interaction ends.
+  const afterTurn = () => {
+    busy = false;
+    if (remaining <= 0) exhaust();
+    else {
+      setControls();
+      input?.focus();
+    }
+  };
+
+  // --- hidden interactions ---
+  const setMode = (next: typeof mode, state?: string) => {
+    mode = next;
+    if (state) root?.setAttribute('data-state', state);
+    else root?.removeAttribute('data-state');
+    setControls();
+  };
+  const lineGap = (line: string) => (line === '' ? 160 : line === 'BARK.' ? 650 : 420);
+
+  // A timed readout over the conversation: the squirrel alert and the Snort-2 unlock share it.
+  type Sequence = {
+    system: string;
+    heading: string;
+    summary: string;
+    progressLabel: string;
+    lines: string[];
+    button: string;
+  };
+  let endSequence: (() => void) | null = null;
+  const playSequence = (seq: Sequence, kind: 'emergency' | 'unlock', id: number, onDone: () => void) => {
+    if (!sequence || !seqLines || !seqBar || !seqButton || !log) return;
+    setMode(kind === 'emergency' ? 'alert' : 'unlock', kind);
+    holdStatus(kind === 'emergency' ? 'Security breach in progress' : 'Experimental access');
+    if (seqSystem) seqSystem.textContent = seq.system;
+    if (seqHeading) seqHeading.textContent = seq.heading;
+    if (seqLabel) seqLabel.textContent = seq.progressLabel;
+    seqLines.replaceChildren();
+    seqBar.style.width = '0%';
+    seqButton.hidden = true;
+    seqButton.textContent = seq.button;
+    sequence.hidden = false;
+    log.inert = true;
+    if (sr) sr.textContent = seq.summary;
+    sequence.focus();
+    if (kind === 'emergency' && !reducedMotion() && root) {
+      root.classList.add('chat-shake');
+      root.addEventListener('animationend', () => root.classList.remove('chat-shake'), { once: true });
+    }
+
+    const finished = () => {
+      seqBar.style.width = '100%';
+      seqButton.hidden = false;
+      seqButton.focus();
+    };
+    const show = (i: number, chain = true) => {
+      if (id !== run) return;
+      const line = seq.lines[i];
+      const row = document.createElement('div');
+      row.textContent = line;
+      if (line === '') row.className = 'h-3';
+      else if (line === 'BARK.') row.className = 'font-bold tracking-widest';
+      seqLines.append(row);
+      seqBar.style.width = `${((i + 1) / seq.lines.length) * 100}%`;
+      sequence.scrollTop = sequence.scrollHeight;
+      if (i + 1 < seq.lines.length) {
+        if (chain) window.setTimeout(() => show(i + 1), lineGap(line));
+      } else finished();
+    };
+    // Reduced motion: print every line at once, with no timers.
+    if (reducedMotion()) seq.lines.forEach((_, i) => show(i, false));
+    else show(0);
+
+    endSequence = () => {
+      endSequence = null;
+      sequence.hidden = true;
+      log.inert = false;
+      holdStatus(null);
+      setMode('normal');
+      onDone();
+    };
+  };
+  seqButton?.addEventListener('click', () => endSequence?.());
+
+  const startSquirrelAlert = (id: number) =>
+    playSequence({ ...squirrelAlert, button: squirrelAlert.dismiss }, 'emergency', id, () => {
+      addNote(squirrelAlert.note);
+      afterTurn();
+    });
+
+  const startUnlock = (id: number) =>
+    playSequence({ ...unlock, button: unlock.proceed }, 'unlock', id, () => {
+      eggs.unlock();
+      if (select && !select.querySelector(`option[value="${snort2.id}"]`)) {
+        select.append(new Option(snort2.label, snort2.id));
+      }
+      if (select) select.value = snort2.id;
+      if (tagline) tagline.textContent = snort2.tagline;
+      addNote(unlock.note);
+      afterTurn();
+    });
+
+  // Nap mode: the model says goodnight, then the interface dims until it is woken.
+  const enterSleep = () => {
+    setMode('asleep', 'asleep');
+    holdStatus(nap.status);
+    sleepBar?.removeAttribute('hidden');
+    if (sr) sr.textContent = nap.summary;
+    wakeButton?.focus();
+  };
+  const wake = () => {
+    const id = run;
+    sleepBar?.setAttribute('hidden', '');
+    holdStatus(null);
+    setMode('normal');
+    busy = true;
+    const target = addAssistant(model().label, nap.restored);
+    typeOut(target, nap.restored, id, afterTurn);
+  };
+  wakeButton?.addEventListener('click', wake);
+
+  // Developer mode: a console over the conversation that answers from a fixed table.
+  const termLine = (text: string, className = '') => {
+    const row = document.createElement('div');
+    row.className = className;
+    row.textContent = text === '' ? '\u00a0' : text;
+    termOut?.append(row);
+    if (termOut) termOut.scrollTop = termOut.scrollHeight;
+  };
+  const enterTerminal = (id: number) => {
+    if (!term || !termOut || !termInput || !termForm || !log || !form) return;
+    setMode('terminal', 'terminal');
+    holdStatus('Root access: goodboy');
+    busy = false;
+    log.inert = true;
+    form.hidden = true;
+    term.hidden = false;
+    termOut.replaceChildren();
+    termInput.value = '';
+    termInput.disabled = true;
+    // Screen readers get the boot text once; the visible lines are printed one at a time.
+    const all = document.createElement('div');
+    all.className = 'sr-only';
+    all.textContent = terminal.boot.join(' ');
+    termOut.append(all);
+    const boot = (i: number) => {
+      if (id !== run || mode !== 'terminal') return;
+      if (i < terminal.boot.length) {
+        const row = document.createElement('div');
+        row.setAttribute('aria-hidden', 'true');
+        row.textContent = terminal.boot[i] === '' ? '\u00a0' : terminal.boot[i];
+        termOut.append(row);
+        termOut.scrollTop = termOut.scrollHeight;
+        window.setTimeout(() => boot(i + 1), terminal.boot[i] === '' ? 40 : 110);
+      } else {
+        termInput.disabled = false;
+        termInput.focus();
+      }
+    };
+    if (reducedMotion()) {
+      terminal.boot.forEach((_, i) => {
+        const row = document.createElement('div');
+        row.setAttribute('aria-hidden', 'true');
+        row.textContent = terminal.boot[i] === '' ? '\u00a0' : terminal.boot[i];
+        termOut.append(row);
+      });
+      termInput.disabled = false;
+      termInput.focus();
+    } else boot(0);
+  };
+  const exitTerminal = () => {
+    if (mode !== 'terminal' || !term || !log || !form) return;
+    term.hidden = true;
+    log.inert = false;
+    form.hidden = false;
+    holdStatus(null);
+    setMode('normal');
+    addNote(terminal.closed);
+    afterTurn();
+  };
+  termForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!termInput || mode !== 'terminal') return;
+    const typed = termInput.value;
+    termInput.value = '';
+    // The typed text is echoed as plain text and looked up in a fixed table. Nothing is run.
+    termLine(`${terminal.prompt} ${typed}`, 'chat-term-prompt');
+    if (typed.trim() === '') return;
+    const result = runCommand(typed);
+    if (result === 'exit') exitTerminal();
+    else if (result === 'clear') termOut?.replaceChildren();
+    else result.lines.forEach((l) => termLine(l));
+  });
+  termExit?.addEventListener('click', exitTerminal);
+  termOut?.addEventListener('click', () => termInput?.focus());
+
+  // Escape closes whichever hidden interaction is open (the alert, the unlock, or the console).
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (mode === 'alert' || mode === 'unlock') endSequence?.();
+    else if (mode === 'terminal') exitTerminal();
+  });
+
   const ask = (text: string) => {
     const message = text.trim();
-    if (!message || busy || exhausted || !input || !thinking || !thinkingText) return;
+    if (!message || busy || exhausted || mode !== 'normal' || !input || !thinking || !thinkingText) return;
 
     const id = run;
     const current = model();
@@ -318,6 +732,12 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
     spend();
     nextStatus();
 
+    // Hidden triggers are checked before any normal reply, and at most one fires per message.
+    const trigger = eggs.route(message);
+    if (trigger === 'squirrel') return startSquirrelAlert(id);
+    if (trigger === 'unlock') return startUnlock(id);
+    if (trigger === 'terminal') return enterTerminal(id);
+
     thinkingText.textContent = thinkingStatus();
     thinking.hidden = false;
     if (sr) sr.textContent = `${current.label} is thinking.`;
@@ -327,18 +747,12 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
       if (id !== run) return;
       thinking.hidden = true;
       if (sr) sr.textContent = '';
-      const { text: answer } = engine.reply(message, current.id);
+      const answer = trigger === 'nap' ? nap.reply : engine.reply(message, current.id).text;
       const naps = 3 + Math.floor(Math.random() * 38);
-      const extra = current.id === 'snort-1-pro' ? `Reasoned for ${naps} naps` : undefined;
+      const extra =
+        current.id === 'snort-1-pro' || current.id === 'snort-2' ? `Reasoned for ${naps} naps` : undefined;
       const target = addAssistant(current.label, answer, extra);
-      typeOut(target, answer, id, () => {
-        busy = false;
-        if (remaining <= 0) exhaust();
-        else {
-          setControls();
-          input.focus();
-        }
-      });
+      typeOut(target, answer, id, () => (trigger === 'nap' ? enterSleep() : afterTurn()));
     }, wait);
   };
 
@@ -351,6 +765,22 @@ import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '.
     run += 1;
     busy = false;
     started = false;
+    // Close any hidden interaction and forget the temporary state.
+    endSequence = null;
+    if (sequence) sequence.hidden = true;
+    if (term) term.hidden = true;
+    sleepBar?.setAttribute('hidden', '');
+    if (log) log.inert = false;
+    if (form) form.hidden = false;
+    root?.classList.remove('chat-shake');
+    holdStatus(null);
+    mode = 'normal';
+    root?.removeAttribute('data-state');
+    eggs.reset();
+    select?.querySelector(`option[value="${snort2.id}"]`)?.remove();
+    if (select && select.value === snort2.id) select.value = models[0].id;
+    if (tagline) tagline.textContent = model().tagline;
+
     if (list) list.replaceChildren();
     if (thinking) thinking.hidden = true;
     if (sr) sr.textContent = '';
