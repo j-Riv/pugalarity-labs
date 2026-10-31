@@ -189,7 +189,7 @@ export const categories: Category[] = [
       'snort-1-mini': ['Pugalarity Labs. Best lab. Has couch.', 'Henry is CEO. Good boy.', 'Lab. Snacks. Yes.'],
       'snort-1-pro': [
         'Pugalarity Labs is a public benefit snorporation committed to ensuring that artificial general intelligence benefits all of dogkind and, where practical, the people holding the snacks. Our mission statement was reviewed by General Counsel, who confirmed it contained no sandwiches. We consider this a compliance success.',
-        'Our leadership team comprises six pugs and one German shepherd, a ratio we regard as optimal for security and unmatched for naps. Governance is provided by a Board of Directors that includes a plush llama. We have found the llama to be exceptionally aligned with management.',
+        'Our leadership team comprises six pugs, one German shepherd, and one extremely enthusiastic mixed-breed, a ratio we regard as optimal for security and unmatched for naps. Governance is provided by a Board of Directors that includes a plush llama. We have found the llama to be exceptionally aligned with management.',
         'Our Series Z, at a valuation of one (1) very good boy, remains the largest funding round ever denominated in good boys. Disclosures can be found in our forward-looking statements, which are mostly about naps.',
       ],
     },

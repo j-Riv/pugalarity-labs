@@ -5,6 +5,7 @@ import alignment from '../assets/team/vp-alignment.jpg';
 import compute from '../assets/team/head-of-compute.jpg';
 import counsel from '../assets/team/general-counsel.jpg';
 import security from '../assets/team/cyber-security.jpg';
+import enthusiasm from '../assets/team/chief-enthusiasm-officer.jpg';
 
 // Invented executives. `alt` describes the portrait for screen readers.
 export interface Executive {
@@ -57,6 +58,13 @@ export const executives: Executive[] = [
     bio: 'Leads a security organization of one. Monitors every door, window, and doorbell around the clock, and has treated the mailman as a persistent threat since before the company was founded.',
     photo: security,
     alt: 'Nero Kernel, Head of Cybersecurity, a German shepherd with upright ears in a black hoodie, over-ear headphones around the neck and a security key on a lanyard, looking to the right.',
+  },
+  {
+    name: 'Chewy Zoomsworth',
+    title: 'Chief Enthusiasm Officer',
+    bio: 'Maintains company-wide excitement at a fully caffeinated baseline. Chewy has greeted every product launch, quarterly review, and colleague returning from the next room with equal and undiminished joy.',
+    photo: enthusiasm,
+    alt: 'Chewy Zoomsworth, Chief Enthusiasm Officer, a tan and black mixed-breed dog with large upright ears, mouth wide open in a grin with the tongue out, wearing a dark gray hoodie with over-ear headphones around the neck.',
   },
   {
     name: 'Marcus Meatley',
