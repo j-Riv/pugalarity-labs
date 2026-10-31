@@ -4,11 +4,13 @@
 import Base from '../layouts/Base.astro';
 import BleedHero from '../components/BleedHero.astro';
 import notFound from '../assets/404/pug-not-found.jpg';
+import notFoundLight from '../assets/404/pug-not-found-light.jpg';
 ---
 
 <Base title="Page not found" description="This page was buried in the backyard.">
   <BleedHero
     src={notFound}
+    srcLight={notFoundLight}
     alt="A pug in round wire glasses, covered in soil, looking back over its shoulder beside a freshly dug hole marked off with string and wooden stakes."
     focusMobile="94%"
     tintMobile="55%"

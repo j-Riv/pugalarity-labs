@@ -41,7 +41,11 @@ scripts/          check-external.mjs
 
 The hero, team portraits, and investor logos are images in `src/assets/` (`hero/`, `team/`, `investors/`). Astro resizes them at build and serves AVIF/WebP with a JPEG fallback (`<Picture>` for photos, `<Image>` for logos). To swap one, replace the file keeping its name and dimensions. Alt text lives in `src/data/team.ts`, `src/data/board.ts`, and on the hero in `src/pages/index.astro`. Investor logos are decorative (`alt=""`) because the firm name sits next to them as live text, and are tinted to the theme with a CSS filter, so they should be a single flat color on a transparent background.
 
-The 404 page uses `src/components/BleedHero.astro` (a full-bleed image whose edges fade into the page background) with `src/assets/404/pug-not-found.jpg`.
+The home hero has two images of the same size: `src/assets/hero/hero.jpg` (dark theme) and `hero-light.jpg` (light theme, on a cream background); `BleedHero.astro` shows the one for the current theme.
+
+The header logo is `src/assets/brand/pugalarity-labs-logo.png`; the light-theme copy (dark wordmark) is generated from it, so after replacing the logo run `node scripts/make-light-logo.mjs` and commit both files.
+
+The 404 page uses `src/components/BleedHero.astro` (a full-bleed image whose edges fade into the page background) with `src/assets/404/pug-not-found.jpg` and, for the light theme, `pug-not-found-light.jpg`.
 
 To regenerate the social preview after editing `design/og-image.svg`, screenshot it at 1200×630 into `public/og-image.png` (headless Chrome: `--window-size=1200,630 --screenshot=public/og-image.png file://$PWD/design/og-image.svg`).
 

@@ -10,6 +10,8 @@ import { Picture } from 'astro:assets';
 
 interface Props {
   src: ImageMetadata;
+  /** Same art on a light background, shown instead of `src` in the light theme. Same size as `src`. */
+  srcLight?: ImageMetadata;
   alt: string;
   /** object-position x for the narrow (stacked) crop: where the subject sits in the image. */
   focusMobile?: string;
@@ -26,6 +28,7 @@ interface Props {
 
 const {
   src,
+  srcLight,
   alt,
   focusMobile = '90%',
   tintMobile = '60%',
@@ -61,8 +64,24 @@ const ratio = (src.width / src.height).toFixed(4);
         formats={['avif', 'webp']}
         fallbackFormat="jpeg"
         priority
-        class="bleed-img"
+        class:list={['bleed-img', srcLight && 'bleed-img-dark']}
       />
+      {
+        srcLight && (
+          <Picture
+            src={srcLight}
+            alt={alt}
+            width={srcLight.width}
+            height={srcLight.height}
+            widths={[800, 1200, srcLight.width]}
+            sizes="(min-width: 1024px) min(100vw, 1350px), min(205vw, 910px)"
+            formats={['avif', 'webp']}
+            fallbackFormat="jpeg"
+            priority
+            class="bleed-img bleed-img-light"
+          />
+        )
+      }
       <div class="bleed-tint" aria-hidden="true"></div>
       <div class="bleed-scrim" aria-hidden="true"></div>
     </div>
@@ -107,6 +126,11 @@ const ratio = (src.width / src.height).toFixed(4);
     height: 100%;
     object-fit: cover;
     object-position: var(--bleed-focus) center;
+  }
+  /* With a separate light-theme image, show only the one for the current theme. */
+  :root[data-theme='light'] .bleed-img-dark,
+  :root:not([data-theme='light']) .bleed-img-light {
+    display: none;
   }
   /* Lift the photo's shadows toward the page tone, but not over the subject. */
   .bleed-tint {

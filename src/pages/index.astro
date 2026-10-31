@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import BleedHero from '../components/BleedHero.astro';
 import InvestorRow from '../components/InvestorRow.astro';
 import hero from '../assets/hero/hero.jpg';
+import heroLight from '../assets/hero/hero-light.jpg';
 
 const metrics = [
   { value: '1.8 billion', label: 'snorts processed per second' },
@@ -47,6 +48,7 @@ const pillars = [
 
   <BleedHero
     src={hero}
+    srcLight={heroLight}
     alt="The Pugalarity Labs mascot, a smiling pug in round glasses, a black turtleneck and jeans, standing in a spotlight with one paw raised."
     focusMobile="85%"
     tintMobile="58%"
