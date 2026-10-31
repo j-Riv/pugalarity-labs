@@ -2,6 +2,8 @@
 // Frontmatter (between the --- fences) runs at build time only, never in the browser.
 // `Astro.props` is how a page passes values into this layout, like React props.
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/pugalarity-labs-logo.png';
 import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
@@ -9,8 +11,12 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Aligning the future with snacks.' } = Astro.props;
-const fullTitle = title === 'Pugalarity Labs' ? title : `${title} · Pugalarity Labs`;
+const tagline = 'Artificial Intelligence, Questionable Intelligence';
+const { title, description = `${tagline}. Aligning the future with snacks.` } = Astro.props;
+// The home page passes the company name as its title and gets the tagline; other pages
+// get "[Page] | Pugalarity Labs".
+const fullTitle =
+  title === 'Pugalarity Labs' ? `Pugalarity Labs | ${tagline}` : `${title} | Pugalarity Labs`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Social crawlers need an absolute image URL and a raster format (they ignore SVG).
 const ogImage = new URL('/og-image.png', Astro.site);
@@ -51,9 +57,15 @@ const path = Astro.url.pathname;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="Pugalarity Labs: Aligning the future with snacks. A pug in a suit and tie." />
+    <meta property="og:image:alt" content="Pugalarity Labs: Aligning the future with snacks. A smiling pug in round glasses and a black turtleneck, standing in a spotlight." />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body class="flex min-h-screen flex-col">
     <a
@@ -65,7 +77,9 @@ const path = Astro.url.pathname;
 
     <header class="border-rule border-b">
       <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-4">
-        <a href="/" class="font-serif text-xl font-semibold tracking-tight">Pugalarity Labs</a>
+        <a href="/" class="block shrink-0">
+          <Image src={logo} alt="Pugalarity Labs" width={600} loading="eager" class="h-12 w-auto sm:h-14" />
+        </a>
         <nav aria-label="Main" class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
           {
             nav.map((item) => (
@@ -103,7 +117,8 @@ const path = Astro.url.pathname;
             ))
           }
         </nav>
-        <p class="text-muted mt-4">© 2026 Pugalarity Labs, a Public Benefit Snorporation.</p>
+        <p class="text-muted mt-4">{tagline}</p>
+        <p class="text-muted mt-1">© 2026 Pugalarity Labs, a Public Benefit Snorporation.</p>
       </div>
     </footer>
 

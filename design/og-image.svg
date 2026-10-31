@@ -1,32 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#faf6ee"/>
-  <rect x="0" y="606" width="1200" height="24" fill="#a35514"/>
-  <text x="72" y="100" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="600" fill="#1d1a16">Pugalarity Labs</text>
-  <text x="72" y="142" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#a35514">pugalaritylabs.com</text>
-  <text x="72" y="262" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="600" fill="#1d1a16">Aligning the</text>
-  <text x="72" y="362" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="600" fill="#1d1a16">future with</text>
-  <text x="72" y="462" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="600" fill="#1d1a16">snacks.</text>
-  <text x="72" y="530" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#5e564b">Safe, beneficial superintelligence.</text>
-  <text x="72" y="568" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#5e564b">Also very good at sitting.</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Fades the photo's left edge into the card background. -->
+    <linearGradient id="fade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="photo-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="630">
+      <rect x="81" y="0" width="1119" height="630" fill="url(#fade)"/>
+    </mask>
+  </defs>
+  <rect width="1200" height="630" fill="#14131a"/>
+  <!-- Source art: src/assets/hero/hero.jpg (16:9), scaled to the card height and pinned right. -->
+  <image href="../src/assets/hero/hero.jpg" x="81" y="0" width="1119" height="630" preserveAspectRatio="xMidYMid slice" mask="url(#photo-mask)"/>
+  <rect x="0" y="606" width="1200" height="24" fill="#e8a863"/>
 
-  <!-- mascot: same shapes as src/components/Pug.astro (fawn, smile, tie), scaled 2.2x -->
-  <g transform="translate(740 120) scale(2.2)">
-    <rect width="200" height="200" rx="24" fill="#f1eadb"/>
-    <path d="M24 200 C24 160 58 148 100 148 C142 148 176 160 176 200 Z" fill="#2c3a52"/>
-    <path d="M76 150 L100 184 L124 150 L100 156 Z" fill="#f3ecdf"/>
-    <path d="M95 160 L105 160 L108 168 L100 196 L92 168 Z" fill="#a35514"/>
-    <path d="M52 60 C30 44 20 78 36 104 C48 98 58 84 62 70 Z" fill="#4a3b2c"/>
-    <path d="M148 60 C170 44 180 78 164 104 C152 98 142 84 138 70 Z" fill="#4a3b2c"/>
-    <ellipse cx="100" cy="98" rx="58" ry="52" fill="#d9a566"/>
-    <g fill="none" stroke="#5a4634" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
-      <path d="M78 66 Q100 58 122 66"/><path d="M82 76 Q100 69 118 76"/><path d="M97 84 Q100 88 103 84"/>
-    </g>
-    <ellipse cx="100" cy="120" rx="30" ry="24" fill="#5a4634"/>
-    <circle cx="76" cy="96" r="12" fill="#fbf7ef"/><circle cx="124" cy="96" r="12" fill="#fbf7ef"/>
-    <circle cx="77" cy="97" r="7" fill="#1d1a16"/><circle cx="123" cy="97" r="7" fill="#1d1a16"/>
-    <circle cx="79.5" cy="94.5" r="2.4" fill="#fbf7ef"/><circle cx="125.5" cy="94.5" r="2.4" fill="#fbf7ef"/>
-    <ellipse cx="100" cy="111" rx="9" ry="6" fill="#1d1a16"/>
-    <path d="M89 126 Q100 148 111 126 Z" fill="#e58a9a"/>
-    <path d="M100 117 V124 M100 124 Q91 133 85 126 M100 124 Q109 133 115 126" fill="none" stroke="#1d1a16" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
+  <!-- Source art: src/assets/brand/pugalarity-labs-logo.png -->
+  <image href="../src/assets/brand/pugalarity-labs-logo.png" x="68" y="44" width="330" height="95"/>
+
+  <text x="72" y="294" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600" fill="#f3ecdf">Aligning the</text>
+  <text x="72" y="378" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600" fill="#f3ecdf">future with</text>
+  <text x="72" y="462" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600" fill="#f3ecdf">snacks.</text>
+  <text x="72" y="524" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#e8a863">Artificial Intelligence, Questionable Intelligence</text>
+  <text x="72" y="572" font-family="ui-monospace, Menlo, monospace" font-size="22" fill="#b5aa98">pugalaritylabs.com</text>
 </svg>
