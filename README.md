@@ -55,7 +55,18 @@ Dark is the default and ignores the operating system's setting. The header toggl
 
 ## Playground
 
-`/playground` is a simulated chat, not a real model. Every reply lives in `src/data/snort.ts` (three models, keyword categories with per-model replies, fallbacks, the four starter prompts, and the status and thinking lines). `src/lib/snort.ts` only matches keywords and picks an entry, never repeating the previous one. To add or change a joke, edit the data file; categories are tried in order, so put specific patterns before broad ones. There is no network call: the only thing stored is the fake "treat allowance" count, in `sessionStorage` for the tab. The playground also has a few hidden interactions; their content is in `src/data/easter-eggs.ts` and their trigger logic in `src/lib/easter-eggs.ts`, kept apart from the public reply library. They are not documented here on purpose.
+`/playground` is a simulated chat, not a real model. Every reply lives in `src/data/snort.ts` (three models, keyword categories with per-model replies, fallbacks, the four starter prompts, and the status and thinking lines). `src/lib/snort.ts` only matches keywords and picks an entry, never repeating the previous one. To add or change a joke, edit the data file; categories are tried in order, so put specific patterns before broad ones. There is no network call: the only thing stored is the fake "treat allowance" count, in `sessionStorage` for the tab. The playground also has a few hidden interactions; their content is in `src/data/easter-eggs.ts` and their trigger logic in `src/lib/easter-eggs.ts`, kept apart from the public reply library.
+
+### Hidden interactions
+
+Spoilers. Triggers are matched against the whole message (case-insensitive), so ordinary sentences never fire them. "New conversation" resets all of it, and nothing is saved between page loads.
+
+| Easter egg | Trigger | What happens |
+| --- | --- | --- |
+| Squirrel emergency | Mention "squirrel" or "squirrels" three times in total, in one message or across several. Fires once per conversation. | Red security-breach overlay; "Dismiss Alert" returns to chat. |
+| Nap Mode | Send exactly `go to sleep`, `take a nap` or `nap mode` (optionally prefixed with "please"). | The model hibernates and the input is disabled until "Wake Model". |
+| Developer terminal | Send exactly `sudo su` (or `sudo su -`). | Fake console with a fixed command table: `help`, `status`, `whoami`, `ls`, `cat squirrels.log`, `uptime`, `sudo apt install intelligence`, `clear`, `exit`. Nothing is evaluated. Escape or `exit` closes it. |
+| Snort-2 (Experimental) | Send exactly `unlock snort-2` (also `snort 2` or `snort2`). | Short unlock sequence, then Snort-2 is added to the model selector. Its replies are in `snort2Bank` in `src/data/easter-eggs.ts`. |
 
 ## Deploying to GitHub Pages
 
