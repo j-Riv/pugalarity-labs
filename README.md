@@ -43,6 +43,10 @@ The 404 page uses `src/components/BleedHero.astro` (a full-bleed image whose edg
 
 To regenerate the social preview after editing `design/og-image.svg`, screenshot it at 1200×630 into `public/og-image.png` (headless Chrome: `--window-size=1200,630 --screenshot=public/og-image.png file://$PWD/design/og-image.svg`).
 
+## Theme
+
+Dark is the default and ignores the operating system's setting. The header toggle switches to light and saves the choice in `localStorage` (this browser only, never sent anywhere). The colors are CSS variables in `src/styles/global.css`: `:root` is dark and `:root[data-theme='light']` overrides it. A small inline script in `Base.astro` sets `data-theme` before first paint, so there is no flash. Anything theme-specific should key off `data-theme` (Tailwind's `dark:` variant is wired to it), not `prefers-color-scheme`.
+
 ## Deploying to GitHub Pages
 
 1. Repository Settings → Pages → Source: **GitHub Actions**.

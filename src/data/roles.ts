@@ -61,7 +61,7 @@ export const roles: Role[] = [
 export const benefits = [
   ['Unlimited naps', 'No approval required. Naps are tracked for uptime reporting only.'],
   ['Equity in kibble', 'Vests over four years with a one-year cliff. The cliff is supervised.'],
-  ['Four-day work week', 'Applies to the pug. Humans remain on call.'],
+  ['Four-day work week', 'Applies to dogs. Humans remain on call.'],
   ['Relocation to any sunbeam', 'We will move you to wherever the light is best.'],
   ['Puppy leave', 'Generous, and non-negotiable.'],
 ];
