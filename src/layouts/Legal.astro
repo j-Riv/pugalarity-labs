@@ -1,0 +1,23 @@
+---
+// Wraps a legal page: shared header, "last updated" line, and readable prose width.
+import Base from './Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lead?: string;
+}
+
+const { title, description, lead } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <PageHeader eyebrow="Legal" title={title} lead={lead} />
+  <p class="text-muted -mt-6 mb-10 font-mono text-sm">
+    Last updated <time datetime="2026-10-28">October 28, 2026</time>
+  </p>
+  <div class="max-w-3xl space-y-10 text-lg leading-relaxed">
+    <slot />
+  </div>
+</Base>

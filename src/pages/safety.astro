@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { levels } from '../data/psl';
 
 const approaches = [
   {
@@ -15,13 +16,6 @@ const approaches = [
     title: 'Adversarial red-teaming',
     body: 'A dedicated red team probes for failures at the perimeter, with a focus on the mailman, the delivery driver, and a sufficiently confident leaf.',
   },
-];
-
-const levels = [
-  ['PSL-1', 'Can reach the couch', 'Standard supervision (someone is home)'],
-  ['PSL-2', 'Can open a cabinet', 'Cabinet latches; kibble relocated above knee height'],
-  ['PSL-3', 'Can open the pantry', 'Deployment paused until pantry gates are installed'],
-  ['PSL-4', 'Can operate a doorknob', 'Not deployed. Not discussed.'],
 ];
 ---
 

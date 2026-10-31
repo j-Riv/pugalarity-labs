@@ -1,0 +1,73 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { levels } from '../../data/psl';
+---
+
+<Legal
+  title="Responsible Scaling Policy"
+  description="How Pugalarity Labs ties deployment decisions to capability thresholds, from reaching the couch to operating a doorknob."
+  lead="Our commitment to scaling capabilities only as fast as we can scale safeguards."
+>
+  <section>
+    <h2 class="text-2xl font-semibold">Purpose</h2>
+    <p class="mt-3">
+      As our models grow more capable, so do the risks they pose. This policy defines capability
+      thresholds, the safeguards required at each, and the conditions under which we will pause
+      development or deployment.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-semibold">Pug Safety Levels</h2>
+    <p class="mt-3">
+      We assess every model against the following thresholds before training continues or
+      deployment begins.
+    </p>
+    <table class="mt-5 w-full text-left text-base">
+      <caption class="sr-only">Pug Safety Levels, with the capability threshold and required safeguards for each</caption>
+      <thead class="border-rule border-b">
+        <tr>
+          <th scope="col" class="py-3 pr-3 font-medium">Level</th>
+          <th scope="col" class="py-3 pr-3 font-medium">Capability threshold</th>
+          <th scope="col" class="py-3 font-medium">Required safeguards</th>
+        </tr>
+      </thead>
+      <tbody class="divide-rule divide-y">
+        {
+          levels.map(([level, threshold, safeguards]) => (
+            <tr>
+              <th scope="row" class="whitespace-nowrap py-3 pr-3 align-top font-mono font-medium">{level}</th>
+              <td class="py-3 pr-3 align-top">{threshold}</td>
+              <td class="text-muted py-3 align-top">{safeguards}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-semibold">Deployment decisions</h2>
+    <p class="mt-3">
+      Snort-1 is currently assessed at PSL-2 and is deployed in private preview. If a model
+      reaches PSL-3, deployment halts until pantry gates are installed and independently
+      verified. We will not train a model to PSL-4.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-semibold">Incident reporting</h2>
+    <p class="mt-3">
+      Incidents involving the pantry are reported internally within 24 hours, or upon discovery of
+      the wrapper, whichever comes first.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-semibold">Governance</h2>
+    <p class="mt-3">
+      This policy is overseen by the Board of Directors, which has final authority over scaling
+      decisions. The Board has not been consulted and has not objected.
+    </p>
+  </section>
+</Legal>

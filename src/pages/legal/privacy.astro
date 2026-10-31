@@ -1,0 +1,45 @@
+---
+import Legal from '../../layouts/Legal.astro';
+
+const sections = [
+  {
+    heading: 'What we collect',
+    body: 'Nothing. This website has no analytics, no tracking, no accounts, and no database. The waitlist form does not transmit your email address anywhere, and we have not found a place to put it.',
+  },
+  {
+    heading: 'Cookies',
+    body: 'We do not set cookies. We have already eaten them.',
+  },
+  {
+    heading: 'How we use information',
+    body: 'We do not hold any information about you, so we do not use any. We recognize this limits our personalization roadmap.',
+  },
+  {
+    heading: 'Sharing',
+    body: 'We do not share your information with third parties. We have none to share, and the third parties have not asked.',
+  },
+  {
+    heading: 'Your rights',
+    body: 'You may request access to, correction of, or deletion of any personal data we hold about you. We hold none. Requests will be acknowledged with a tilted head.',
+  },
+  {
+    heading: 'Children',
+    body: 'Our services are intended for adults and for pugs of any age.',
+  },
+];
+---
+
+<Legal
+  title="Privacy Policy"
+  description="Pugalarity Labs collects nothing. We are pugs."
+  lead="We collect nothing. We are pugs."
+>
+  {
+    sections.map((s) => (
+      <section>
+        <h2 class="text-2xl font-semibold">{s.heading}</h2>
+        <p class="mt-3">{s.body}</p>
+      </section>
+    ))
+  }
+</Legal>

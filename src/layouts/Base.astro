@@ -2,6 +2,7 @@
 // Frontmatter (between the --- fences) runs at build time only, never in the browser.
 // `Astro.props` is how a page passes values into this layout, like React props.
 import '../styles/global.css';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title: string;
@@ -76,7 +77,7 @@ const path = Astro.url.pathname;
       </div>
     </header>
 
-    <main id="main" class="mx-auto w-full max-w-5xl flex-1 px-4 py-12">
+    <main id="main" tabindex="-1" class="mx-auto w-full max-w-5xl flex-1 px-4 py-12 outline-none">
       <slot />
     </main>
 
@@ -94,5 +95,7 @@ const path = Astro.url.pathname;
         <p class="text-muted mt-4">© 2026 Pugalarity Labs, a Public Benefit Snorporation.</p>
       </div>
     </footer>
+
+    <CookieBanner />
   </body>
 </html>

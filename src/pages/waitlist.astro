@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+
+const steps = [
+  'Your application is received.',
+  'Your application is sniffed.',
+  'A pug reviews the sniff.',
+  'You are contacted at a time determined by the pug.',
+];
+---
+
+<Base
+  title="Join the waitlist"
+  description="Request early access to Snort-1, the flagship model from Pugalarity Labs."
+>
+  <PageHeader
+    eyebrow="Early access"
+    title="Join the waitlist"
+    lead="Snort-1 is available in limited private preview. Enter your email address to request access."
+  />
+
+  <WaitlistForm />
+
+  <section aria-labelledby="next-heading" class="border-rule mt-16 max-w-xl border-t pt-10">
+    <h2 id="next-heading" class="text-2xl font-semibold">What happens next</h2>
+    <ol class="mt-4 list-decimal space-y-2 pl-6 text-lg">
+      {steps.map((s) => <li>{s}</li>)}
+    </ol>
+  </section>
+</Base>

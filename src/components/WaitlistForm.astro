@@ -1,0 +1,50 @@
+---
+// Nothing here collects anything. The input has no `name` attribute, so even if
+// JavaScript never runs, the browser submits no data. The script below only
+// swaps the form for a confirmation message in the page.
+---
+
+<div data-waitlist>
+  <form data-waitlist-form class="max-w-xl">
+    <label for="waitlist-email" class="block font-medium">Email address</label>
+    <div class="mt-2 flex flex-col gap-3 sm:flex-row">
+      <input
+        id="waitlist-email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+        class="border-rule bg-paper placeholder:text-muted min-w-0 flex-1 rounded border px-4 py-3"
+      />
+      <button type="submit" class="bg-accent text-paper rounded px-5 py-3 font-medium hover:opacity-90">
+        Join the waitlist
+      </button>
+    </div>
+  </form>
+
+  <div
+    data-waitlist-status
+    role="status"
+    tabindex="-1"
+    class="border-rule bg-paper-2 mt-0 hidden max-w-xl rounded-lg border p-6 outline-none"
+  >
+    <p class="font-serif text-2xl font-semibold">You’re on the list.</p>
+    <p class="mt-3 text-lg">Current position: <span class="font-mono">8,000,000,001</span>.</p>
+    <p class="text-muted mt-2">A pug will sniff your application shortly.</p>
+  </div>
+</div>
+
+<script>
+  // Astro bundles <script> tags in components and type-checks them as TypeScript.
+  const root = document.querySelector<HTMLElement>('[data-waitlist]');
+  const form = root?.querySelector<HTMLFormElement>('[data-waitlist-form]');
+  const status = root?.querySelector<HTMLElement>('[data-waitlist-status]');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    form.hidden = true;
+    status?.classList.remove('hidden');
+    // The button that had focus just disappeared; move focus to the confirmation.
+    status?.focus();
+  });
+</script>
