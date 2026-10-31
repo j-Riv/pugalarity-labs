@@ -1,5 +1,7 @@
 // Open roles. Every role is absurd; none is real.
 export interface Role {
+  /** URL slug, used by /careers/apply/?role=<id>. */
+  id: string;
   title: string;
   team: string;
   location: string;
@@ -9,6 +11,7 @@ export interface Role {
 
 export const roles: Role[] = [
   {
+    id: 'snack-alignment-engineer',
     title: 'Senior Snack Alignment Engineer',
     team: 'Alignment',
     location: 'On-site (kitchen)',
@@ -17,6 +20,7 @@ export const roles: Role[] = [
     requirements: ['5+ years working near snacks', 'Strong opinions about portion size', 'Comfortable with ambiguity, and with crumbs'],
   },
   {
+    id: 'belly-rub-researcher',
     title: 'Staff Belly-Rub Researcher',
     team: 'Research',
     location: 'Hybrid (lap)',
@@ -25,6 +29,7 @@ export const roles: Role[] = [
     requirements: ['PhD or equivalent time on a sofa', 'Publication record in tactile affection', 'Gentle hands'],
   },
   {
+    id: 'prompt-engineer',
     title: 'Prompt Engineer',
     team: 'Applied',
     location: 'Remote (couch)',
@@ -33,6 +38,7 @@ export const roles: Role[] = [
     requirements: ['Excellent command of the word “treat”', 'Ability to spell W-A-L-K under pressure', 'Calm demeanor around leashes'],
   },
   {
+    id: 'sofa-infrastructure',
     title: 'Head of Sofa Infrastructure',
     team: 'Infrastructure',
     location: 'Remote (couch)',
@@ -41,6 +47,7 @@ export const roles: Role[] = [
     requirements: ['Experience operating upholstery at scale', '99.99% uptime mindset', 'On-call rotation (it is mostly naps)'],
   },
   {
+    id: 'mailman-red-team',
     title: 'Red Team: Mailman Specialist',
     team: 'Safety',
     location: 'On-site (front window)',
@@ -49,6 +56,7 @@ export const roles: Role[] = [
     requirements: ['Proven track record of window-based vigilance', 'Loud, reproducible outputs', 'Fearless disposition'],
   },
   {
+    id: 'squirrel-detection-lead',
     title: 'Founding Squirrel Detection Lead',
     team: 'Applied',
     location: 'On-site (backyard)',
@@ -64,4 +72,12 @@ export const benefits = [
   ['Four-day work week', 'Applies to dogs. Humans remain on call.'],
   ['Relocation to any sunbeam', 'We will move you to wherever the light is best.'],
   ['Puppy leave', 'Generous, and non-negotiable.'],
+];
+
+export const hiringSteps = [
+  'Your application is received.',
+  'Your application is sniffed.',
+  'You are invited to fetch. Performance is evaluated.',
+  'You meet the team during a shared nap.',
+  'An offer is extended in the form of a treat.',
 ];

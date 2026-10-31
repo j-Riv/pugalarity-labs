@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ApplyForm from '../../components/ApplyForm.astro';
+import { hiringSteps } from '../../data/roles';
+---
+
+<Base
+  title="Apply"
+  description="Apply for an open role at Pugalarity Labs. Applications are sniffed within one business nap."
+>
+  <PageHeader
+    eyebrow="Careers"
+    title="Apply to Pugalarity Labs"
+    lead="Tell us who you are and which role you are drawn to. Every application is read, or at least sniffed."
+  />
+
+  <ApplyForm />
+
+  <section aria-labelledby="next-heading" class="border-rule mt-16 max-w-xl border-t pt-10">
+    <h2 id="next-heading" class="text-2xl font-semibold">What happens next</h2>
+    <ol class="mt-4 list-decimal space-y-2 pl-6 text-lg">
+      {hiringSteps.map((s) => <li>{s}</li>)}
+    </ol>
+    <p class="mt-8">
+      <a href="/careers/" class="text-accent underline underline-offset-4 hover:opacity-80">Back to open roles</a>
+    </p>
+  </section>
+</Base>

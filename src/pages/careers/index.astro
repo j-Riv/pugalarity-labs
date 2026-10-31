@@ -1,7 +1,7 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
-import { roles, benefits } from '../data/roles';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { roles, benefits } from '../../data/roles';
 ---
 
 <Base
@@ -33,7 +33,7 @@ import { roles, benefits } from '../data/roles';
                 {r.requirements.map((q) => <li>{q}</li>)}
               </ul>
               <a
-                href="/waitlist/"
+                href={`/careers/apply/?role=${r.id}`}
                 class="bg-accent text-paper mt-5 inline-block rounded px-4 py-2 font-medium hover:opacity-90"
               >
                 Apply<span class="sr-only"> for {r.title}</span>
