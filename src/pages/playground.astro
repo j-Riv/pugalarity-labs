@@ -1,23 +1,53 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { DAILY_ALLOWANCE, models, replyCount, starters, systemStatuses } from '../data/snort';
 ---
 
 <Base
   title="Playground"
-  description="Chat with Snort-1 in the Pugalarity Labs playground."
+  description="Chat with Snort-1, Snort-1 Mini and Snort-1 Pro in the Pugalarity Labs playground."
 >
   <PageHeader
     eyebrow="Playground"
     title="Talk to Snort-1"
-    lead="Ask Snort-1 anything. Responses are generated in your browser and are not sent or stored."
+    lead="Snort-1 runs entirely in your browser. Nothing you type is sent or stored."
   />
 
-  <div data-chat class="border-rule bg-paper-2 max-w-2xl rounded-lg border">
-    <div class="border-rule border-b px-5 py-3">
-      <h2 class="font-serif text-lg font-semibold">
-        Snort-1 <span class="text-muted font-sans text-sm font-normal">private preview</span>
-      </h2>
+  <div data-chat class="border-rule bg-paper-2 max-w-3xl rounded-lg border">
+    <div class="border-rule flex flex-wrap items-end justify-between gap-x-4 gap-y-3 border-b px-5 py-3">
+      <div>
+        <label for="chat-model" class="text-muted block text-sm">Model</label>
+        <select
+          id="chat-model"
+          data-chat-model
+          class="border-rule bg-paper mt-1 rounded border px-3 py-1.5 font-serif text-lg font-semibold"
+        >
+          {models.map((m) => <option value={m.id}>{m.label}</option>)}
+        </select>
+        <p data-chat-tagline class="text-muted mt-1 text-sm">{models[0].tagline}</p>
+      </div>
+      <button
+        type="button"
+        data-chat-reset
+        class="border-rule text-muted hover:text-ink rounded border px-3 py-1.5 text-sm"
+      >
+        New conversation
+      </button>
+    </div>
+
+    <div class="border-rule text-muted flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-5 py-2 font-mono text-xs">
+      <p class="flex items-center gap-2">
+        <span aria-hidden="true" class="bg-accent inline-block h-2 w-2 rounded-full"></span>
+        <span class="sr-only">System status: operational.</span>
+        <span data-chat-status aria-hidden="true">{systemStatuses[0]}</span>
+      </p>
+      <p class="flex items-center gap-2">
+        <span data-chat-allowance>Treats remaining: {DAILY_ALLOWANCE} of {DAILY_ALLOWANCE}</span>
+        <span aria-hidden="true" class="bg-rule inline-block h-1 w-16 overflow-hidden rounded-full">
+          <span data-chat-meter class="bg-accent block h-full w-full"></span>
+        </span>
+      </p>
     </div>
 
     <!-- role="log" announces each added message to screen readers, and tabindex="0" lets
@@ -29,16 +59,34 @@ import PageHeader from '../components/PageHeader.astro';
       aria-label="Conversation with Snort-1"
       aria-live="polite"
       tabindex="0"
-      class="h-96 overflow-y-auto px-5 py-4"
+      class="h-96 overflow-y-auto px-5 py-4 md:h-[28rem]"
     >
-      <ul data-chat-list class="space-y-3">
-        <li class="bg-paper border-rule mr-10 rounded-lg border px-4 py-2">
-          <span class="sr-only">Snort-1: </span>snrk.
-        </li>
-      </ul>
+      <ul data-chat-list class="space-y-3"></ul>
     </div>
 
-    <p data-chat-thinking hidden aria-hidden="true" class="text-muted px-5 pb-3 font-mono text-sm"></p>
+    <p data-chat-thinking hidden aria-hidden="true" class="text-muted px-5 pb-3 font-mono text-sm">
+      <span data-chat-thinking-text></span><span class="chat-dots"><span>.</span><span>.</span><span>.</span></span>
+    </p>
+    <p data-chat-sr role="status" class="sr-only"></p>
+
+    <div data-chat-starters class="px-5 pb-4">
+      <p class="text-muted mb-2 text-sm">Try asking</p>
+      <ul class="grid gap-2 sm:grid-cols-2">
+        {
+          starters.map((s) => (
+            <li>
+              <button
+                type="button"
+                data-chat-starter={s.prompt}
+                class="border-rule bg-paper hover:border-accent w-full rounded-lg border px-4 py-2.5 text-left text-sm disabled:opacity-60"
+              >
+                {s.prompt}
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
     <form data-chat-form class="border-rule flex gap-3 border-t p-4">
       <label for="chat-input" class="sr-only">Message Snort-1</label>
@@ -49,7 +97,7 @@ import PageHeader from '../components/PageHeader.astro';
         maxlength="500"
         autocomplete="off"
         placeholder="Message Snort-1"
-        class="border-rule bg-paper placeholder:text-muted min-w-0 flex-1 rounded border px-4 py-2.5"
+        class="border-rule bg-paper placeholder:text-muted min-w-0 flex-1 rounded border px-4 py-2.5 disabled:opacity-60"
       />
       <button
         type="submit"
@@ -60,90 +108,290 @@ import PageHeader from '../components/PageHeader.astro';
     </form>
   </div>
 
-  <p class="text-muted mt-4 max-w-2xl text-sm">
+  <p class="text-muted mt-4 max-w-3xl text-sm">
     Snort-1 can make mistakes. Mostly about where it left the ball.
   </p>
+  <details class="text-muted mt-3 max-w-3xl text-sm">
+    <summary class="hover:text-ink cursor-pointer underline-offset-4">About these models</summary>
+    <p class="mt-2">
+      Snort-1, Snort-1 Mini and Snort-1 Pro run entirely in your browser. Each reply is selected from a
+      fixed library of {replyCount} prewritten responses by keyword matching. No external model is running,
+      and nothing you type leaves this page. The daily treat allowance is tracked in this browser tab only.
+    </p>
+  </details>
 </Base>
 
+<style is:global>
+  .chat-dots span {
+    opacity: 0.4;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .chat-dots span {
+      animation: chat-dot 1.2s infinite;
+    }
+    .chat-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .chat-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes chat-dot {
+      0%,
+      60%,
+      100% {
+        opacity: 0.25;
+      }
+      30% {
+        opacity: 1;
+      }
+    }
+  }
+</style>
+
 <script>
-  // Everything here runs in the browser. There is no network call and no storage.
+  // Everything here runs in the browser. There is no network call. The only thing stored is the
+  // remaining "treat allowance", in sessionStorage for this tab.
+  import { DAILY_ALLOWANCE, limitMessage, models, systemStatuses, type ModelId } from '../data/snort';
+  import { createEngine, thinkDelay, thinkingStatus } from '../lib/snort';
+
   const root = document.querySelector<HTMLElement>('[data-chat]');
-  const log = root?.querySelector<HTMLElement>('[data-chat-log]');
-  const list = root?.querySelector<HTMLElement>('[data-chat-list]');
-  const form = root?.querySelector<HTMLFormElement>('[data-chat-form]');
-  const input = root?.querySelector<HTMLInputElement>('#chat-input');
-  const thinking = root?.querySelector<HTMLElement>('[data-chat-thinking]');
-  const send = form?.querySelector<HTMLButtonElement>('button');
+  const q = <T extends HTMLElement>(selector: string) => root?.querySelector<T>(selector) ?? null;
+  const log = q('[data-chat-log]');
+  const list = q('[data-chat-list]');
+  const form = q<HTMLFormElement>('[data-chat-form]');
+  const input = q<HTMLInputElement>('#chat-input');
+  const send = form?.querySelector<HTMLButtonElement>('button[type="submit"]') ?? null;
+  const select = q<HTMLSelectElement>('[data-chat-model]');
+  const tagline = q('[data-chat-tagline]');
+  const reset = q<HTMLButtonElement>('[data-chat-reset]');
+  const status = q('[data-chat-status]');
+  const allowanceText = q('[data-chat-allowance]');
+  const meter = q('[data-chat-meter]');
+  const thinking = q('[data-chat-thinking]');
+  const thinkingText = q('[data-chat-thinking-text]');
+  const sr = q('[data-chat-sr]');
+  const startersBox = q('[data-chat-starters]');
+  const starterButtons = Array.from(root?.querySelectorAll<HTMLButtonElement>('[data-chat-starter]') ?? []);
 
-  const rules: [RegExp, string][] = [
-    [/\bwalk|w-a-l-k|leash/i, 'WALK? (This is a measured response. I am not excited.)'],
-    [/treat|snack|food|dinner|cheese|bacon/i, 'I have located the treat. It is in your hand. Please advise.'],
-    [/mailman|delivery|doorbell|postal/i, 'Threat detected. Escalating vocalization to maximum. This is the safe response.'],
-    [/squirrel/i, 'I have caught zero (0) squirrels. This is by design.'],
-    [/align|safe|agi\b|singularity|superintelligen/i, 'Our alignment approach is treats. Results have been consistent.'],
-    [/who are you|what are you|your name/i, 'I am Snort-1, a large pug model developed by Pugalarity Labs.'],
-    [/^\s*(hi|hello|hey)\b/i, 'snrk. Hello.'],
-  ];
+  const engine = createEngine();
+  const STORAGE_KEY = 'snort-treats';
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const model = () => models.find((m) => m.id === (select?.value as ModelId)) ?? models[0];
 
-  const fallbacks = [
-    'snrk.',
-    '*tilts head*',
-    'Have you considered: treat?',
-    'I understand your question. I have decided to sit.',
-    'Great question. Unfortunately, I was asleep for most of it.',
-    'As a large pug model, I cannot help with that. I can, however, be held.',
-    'Reasoning complete. Conclusion: belly.',
-    'I have reviewed the available evidence. There was a sound from the kitchen.',
-    'I am unable to browse the web. I can browse the yard.',
-  ];
-
-  let last = '';
-  const reply = (text: string) => {
-    for (const [pattern, answer] of rules) if (pattern.test(text)) return answer;
-    // Avoid repeating the previous fallback back to back.
-    const options = fallbacks.filter((f) => f !== last);
-    last = options[Math.floor(Math.random() * options.length)];
-    return last;
+  // --- allowance (per tab) ---
+  const readAllowance = () => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      const n = saved === null ? NaN : Number(saved);
+      return Number.isInteger(n) && n >= 0 && n <= DAILY_ALLOWANCE ? n : DAILY_ALLOWANCE;
+    } catch {
+      return DAILY_ALLOWANCE;
+    }
+  };
+  let remaining = readAllowance();
+  const renderAllowance = () => {
+    if (allowanceText) allowanceText.textContent = `Treats remaining: ${remaining} of ${DAILY_ALLOWANCE}`;
+    if (meter) meter.style.width = `${(remaining / DAILY_ALLOWANCE) * 100}%`;
+  };
+  const spend = () => {
+    remaining -= 1;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, String(remaining));
+    } catch {
+      // Storage can be blocked; the allowance then lasts until the page is reloaded.
+    }
+    renderAllowance();
   };
 
-  const add = (who: 'You' | 'Snort-1', text: string) => {
+  // --- rotating system status (decorative) ---
+  let statusIndex = 0;
+  const nextStatus = () => {
+    statusIndex = (statusIndex + 1) % systemStatuses.length;
+    if (status) status.textContent = systemStatuses[statusIndex];
+  };
+  if (!reducedMotion()) window.setInterval(nextStatus, 6000);
+
+  // --- transcript ---
+  const scroll = () => {
+    if (log) log.scrollTop = log.scrollHeight;
+  };
+  const addUser = (text: string) => {
     const li = document.createElement('li');
-    li.className =
-      who === 'You'
-        ? 'bg-accent text-paper ml-10 rounded-lg px-4 py-2'
-        : 'bg-paper border-rule mr-10 rounded-lg border px-4 py-2';
+    li.className = 'bg-accent text-paper ml-10 rounded-lg px-4 py-2';
     const label = document.createElement('span');
     label.className = 'sr-only';
-    label.textContent = `${who}: `;
+    label.textContent = 'You: ';
     // textContent, never innerHTML: whatever is typed is shown as plain text.
     li.append(label, document.createTextNode(text));
     list?.append(li);
-    if (log) log.scrollTop = log.scrollHeight;
+    scroll();
+  };
+  const addNote = (text: string) => {
+    const li = document.createElement('li');
+    li.className = 'text-muted py-1 text-center font-mono text-xs';
+    li.textContent = text;
+    list?.append(li);
+    scroll();
+  };
+  const assistantShell = (label: string, extra?: string) => {
+    const li = document.createElement('li');
+    li.className = 'bg-paper border-rule mr-10 rounded-lg border px-4 py-2';
+    const who = document.createElement('span');
+    who.className = 'text-muted mb-1 block font-mono text-xs';
+    who.textContent = label;
+    li.append(who);
+    if (extra) {
+      const meta = document.createElement('span');
+      meta.className = 'text-muted mb-1 block font-mono text-xs';
+      meta.textContent = extra;
+      li.append(meta);
+    }
+    list?.append(li);
+    return li;
+  };
+  // The full text is for screen readers; the visible copy is typed out and hidden from them, so
+  // they hear the reply once instead of word by word.
+  const addAssistant = (label: string, text: string, extra?: string) => {
+    const li = assistantShell(label, extra);
+    const full = document.createElement('span');
+    full.className = 'sr-only';
+    full.textContent = text;
+    const visible = document.createElement('span');
+    visible.setAttribute('aria-hidden', 'true');
+    li.append(full, visible);
+    scroll();
+    return visible;
   };
 
-  let pending = false;
+  let run = 0; // bumped by reset, so a reply that is still in flight can tell it was cancelled
+  let busy = false;
+  let exhausted = false;
+  let started = false; // true once something has been asked in this conversation
+
+  const setControls = () => {
+    const off = busy || exhausted;
+    if (input) input.disabled = off;
+    if (send) send.disabled = off;
+    starterButtons.forEach((b) => (b.disabled = off));
+  };
+
+  const typeOut = (target: HTMLElement, text: string, id: number, done: () => void) => {
+    if (reducedMotion()) {
+      target.textContent = text;
+      scroll();
+      done();
+      return;
+    }
+    const parts = text.split(/(\s+)/);
+    const perTick = Math.max(1, Math.ceil(parts.length / 90)); // keeps long replies under ~3 s
+    let shown = 0;
+    const tick = () => {
+      if (id !== run) return;
+      shown = Math.min(parts.length, shown + perTick);
+      target.textContent = parts.slice(0, shown).join('');
+      scroll();
+      if (shown < parts.length) window.setTimeout(tick, 30);
+      else done();
+    };
+    tick();
+  };
+
+  const exhaust = () => {
+    exhausted = true;
+    addNote(limitMessage);
+    if (sr) sr.textContent = limitMessage;
+    setControls();
+  };
+
+  const ask = (text: string) => {
+    const message = text.trim();
+    if (!message || busy || exhausted || !input || !thinking || !thinkingText) return;
+
+    const id = run;
+    const current = model();
+    busy = true;
+    started = true;
+    setControls();
+    startersBox?.setAttribute('hidden', '');
+    addUser(message);
+    input.value = '';
+    spend();
+    nextStatus();
+
+    thinkingText.textContent = thinkingStatus();
+    thinking.hidden = false;
+    if (sr) sr.textContent = `${current.label} is thinking.`;
+
+    const wait = reducedMotion() ? 300 : thinkDelay(current.id);
+    window.setTimeout(() => {
+      if (id !== run) return;
+      thinking.hidden = true;
+      if (sr) sr.textContent = '';
+      const { text: answer } = engine.reply(message, current.id);
+      const naps = 3 + Math.floor(Math.random() * 38);
+      const extra = current.id === 'snort-1-pro' ? `Reasoned for ${naps} naps` : undefined;
+      const target = addAssistant(current.label, answer, extra);
+      typeOut(target, answer, id, () => {
+        busy = false;
+        if (remaining <= 0) exhaust();
+        else {
+          setControls();
+          input.focus();
+        }
+      });
+    }, wait);
+  };
+
+  const greet = () => {
+    const hello = 'snrk. Hello. Ask me anything.';
+    addAssistant(model().label, hello).textContent = hello;
+  };
+
+  const clear = () => {
+    run += 1;
+    busy = false;
+    started = false;
+    if (list) list.replaceChildren();
+    if (thinking) thinking.hidden = true;
+    if (sr) sr.textContent = '';
+    if (input) input.value = '';
+    exhausted = remaining <= 0;
+    if (exhausted) {
+      addNote(limitMessage);
+    } else {
+      greet();
+      startersBox?.removeAttribute('hidden');
+    }
+    setControls();
+    if (!exhausted) input?.focus();
+  };
+
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
-    const text = input?.value.trim() ?? '';
-    if (!text || pending || !input || !send || !thinking) return;
-
-    pending = true;
-    send.disabled = true;
-    add('You', text);
-    input.value = '';
-
-    const naps = 3 + Math.floor(Math.random() * 38);
-    thinking.textContent = `Reasoning for ${naps} naps…`;
-    thinking.hidden = false;
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const delay = reduced ? 300 : 900 + Math.random() * 700;
-    window.setTimeout(() => {
-      thinking.hidden = true;
-      add('Snort-1', reply(text));
-      send.disabled = false;
-      pending = false;
-      input.focus();
-    }, delay);
+    ask(input?.value ?? '');
   });
+  starterButtons.forEach((b) => b.addEventListener('click', () => ask(b.dataset.chatStarter ?? '')));
+  reset?.addEventListener('click', clear);
+  select?.addEventListener('change', () => {
+    const m = model();
+    if (tagline) tagline.textContent = m.tagline;
+    if (started) addNote(`Switched to ${m.label}`);
+  });
+
+  // Links from the Snort-1 page open the playground on the model they name.
+  const wanted = new URLSearchParams(window.location.search).get('model');
+  if (select && models.some((m) => m.id === wanted)) {
+    select.value = wanted as string;
+    if (tagline) tagline.textContent = model().tagline;
+  }
+
+  renderAllowance();
+  if (remaining <= 0) {
+    exhausted = true;
+    startersBox?.setAttribute('hidden', '');
+    addNote(limitMessage);
+    setControls();
+  } else {
+    greet();
+  }
 </script>

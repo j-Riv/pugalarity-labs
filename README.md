@@ -53,6 +53,10 @@ To regenerate the social preview after editing `design/og-image.svg`, screenshot
 
 Dark is the default and ignores the operating system's setting. The header toggle switches to light and saves the choice in `localStorage` (this browser only, never sent anywhere). The colors are CSS variables in `src/styles/global.css`: `:root` is dark and `:root[data-theme='light']` overrides it. A small inline script in `Base.astro` sets `data-theme` before first paint, so there is no flash. Anything theme-specific should key off `data-theme` (Tailwind's `dark:` variant is wired to it), not `prefers-color-scheme`.
 
+## Playground
+
+`/playground` is a simulated chat, not a real model. Every reply lives in `src/data/snort.ts` (three models, keyword categories with per-model replies, fallbacks, the four starter prompts, and the status and thinking lines). `src/lib/snort.ts` only matches keywords and picks an entry, never repeating the previous one. To add or change a joke, edit the data file; categories are tried in order, so put specific patterns before broad ones. There is no network call: the only thing stored is the fake "treat allowance" count, in `sessionStorage` for the tab.
+
 ## Deploying to GitHub Pages
 
 1. Repository Settings → Pages → Source: **GitHub Actions**.
