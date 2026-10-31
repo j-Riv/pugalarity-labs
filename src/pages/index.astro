@@ -1,20 +1,142 @@
 ---
 // A file in src/pages/ becomes a route; this one is "/". It wraps its content in Base.
 import Base from '../layouts/Base.astro';
+import Pug from '../components/Pug.astro';
+import InvestorLogo from '../components/InvestorLogo.astro';
+import { investors } from '../data/investors';
+
+const metrics = [
+  { value: '1.8 billion', label: 'snorts processed per second' },
+  { value: '99.97%', label: 'nap uptime, trailing 90 days' },
+  { value: '0', label: 'squirrels caught, by design' },
+  { value: '128k', label: 'sniff context window' },
+];
+
+const pillars = [
+  {
+    title: 'Capabilities',
+    body: 'Snort-1 reasons across sound, smell, and the specific sound of a bag being opened. It generalizes to bags it has never heard.',
+    href: '/models/snort-1/',
+    cta: 'Meet Snort-1',
+  },
+  {
+    title: 'Safety',
+    body: 'Every model is aligned to a single, robust objective: treats. We have found this objective stable under distribution shift, including the vet.',
+    href: '/safety/',
+    cta: 'Read our safety approach',
+  },
+  {
+    title: 'Scale',
+    body: 'Our largest training run consumed 40 petabelly-rubs of data across a cluster of 11,000 couches, with no unplanned downtime.',
+    href: '/research/',
+    cta: 'Browse the research',
+  },
+];
 ---
 
 <Base title="Pugalarity Labs">
-  <section class="py-12">
-    <h1 class="max-w-3xl text-5xl font-semibold leading-tight sm:text-6xl">
-      Aligning the future with snacks.
-    </h1>
-    <p class="text-muted mt-6 max-w-2xl text-lg">
-      Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
-      sitting.
+  <a
+    href="/news/series-z/"
+    class="border-rule bg-paper-2 hover:border-accent mb-12 inline-block rounded-full border px-4 py-1.5 text-sm"
+  >
+    <span class="text-accent font-medium">News</span>
+    <span class="text-muted mx-2" aria-hidden="true">·</span>
+    Pugalarity Labs announces $4.2 quadrillion Series Z
+    <span aria-hidden="true">→</span>
+  </a>
+
+  <section class="grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
+    <div>
+      <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl">
+        Aligning the future with snacks.
+      </h1>
+      <p class="text-muted mt-6 max-w-xl text-lg">
+        Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
+        sitting.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <a
+          href="/waitlist/"
+          class="bg-accent text-paper rounded px-5 py-3 font-medium hover:opacity-90"
+        >
+          Join the waitlist
+        </a>
+        <a href="/models/snort-1/" class="underline underline-offset-4">
+          Read the Snort-1 technical report
+        </a>
+      </div>
+    </div>
+    <Pug
+      class="mx-auto w-full max-w-xs"
+      accessories={['tie']}
+      expression="smile"
+      alt="Illustration of the Pugalarity Labs mascot, a fawn pug in a navy suit and orange tie."
+    />
+  </section>
+
+  <section aria-labelledby="metrics-heading" class="border-rule mt-20 border-y py-8">
+    <h2 id="metrics-heading" class="sr-only">Key metrics</h2>
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
+      {
+        metrics.map((m) => (
+          <div class="flex flex-col">
+            <dt class="text-muted order-2 mt-1 text-sm">{m.label}</dt>
+            <dd class="font-serif text-3xl font-semibold tabular-nums sm:text-4xl">{m.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mt-20 max-w-3xl">
+    <h2 class="text-3xl font-semibold">Our mission</h2>
+    <p class="mt-4 text-xl leading-relaxed">
+      To ensure that artificial general intelligence benefits all of pugkind and, where practical,
+      the people holding the snacks.
+    </p>
+  </section>
+
+  <section aria-labelledby="pillars-heading" class="mt-20">
+    <h2 id="pillars-heading" class="sr-only">What we do</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        pillars.map((p) => (
+          <article class="border-rule bg-paper-2 flex flex-col rounded-lg border p-6">
+            <h3 class="text-xl font-semibold">{p.title}</h3>
+            <p class="text-muted mt-3 flex-1">{p.body}</p>
+            <a href={p.href} class="mt-5 font-medium underline underline-offset-4">
+              {p.cta}
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="backers-heading" class="mt-20">
+    <h2 id="backers-heading" class="text-muted text-sm font-medium uppercase tracking-wider">
+      Backed by the world's most patient capital
+    </h2>
+    <ul class="text-muted mt-6 flex flex-wrap items-center gap-x-10 gap-y-6">
+      {
+        investors.map((i) => (
+          <li>
+            <InvestorLogo firm={i.firm} class="h-8 w-auto" />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-rule bg-paper-2 mt-20 rounded-lg border p-8 sm:p-12">
+    <h2 class="max-w-2xl text-3xl font-semibold">Early access to Snort-1 is limited.</h2>
+    <p class="text-muted mt-3 max-w-2xl">
+      Queue position is determined by proximity to snacks. We will be in touch.
     </p>
     <a
       href="/waitlist/"
-      class="bg-accent text-paper mt-8 inline-block rounded px-5 py-3 font-medium hover:opacity-90"
+      class="bg-accent text-paper mt-6 inline-block rounded px-5 py-3 font-medium hover:opacity-90"
     >
       Join the waitlist
     </a>

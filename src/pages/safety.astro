@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const approaches = [
+  {
+    title: 'Treat-based reward modeling',
+    body: 'Our models are trained against a single, interpretable objective. Where the objective is satisfied, behavior is excellent. Where it is not, we observe sitting.',
+  },
+  {
+    title: 'Scalable nap oversight',
+    body: 'Human supervisors cannot review every output, so we schedule review during periods of maximal supervisor availability, typically 3 p.m. on a sofa.',
+  },
+  {
+    title: 'Adversarial red-teaming',
+    body: 'A dedicated red team probes for failures at the perimeter, with a focus on the mailman, the delivery driver, and a sufficiently confident leaf.',
+  },
+];
+
+const levels = [
+  ['PSL-1', 'Can reach the couch', 'Standard supervision (someone is home)'],
+  ['PSL-2', 'Can open a cabinet', 'Cabinet latches; kibble relocated above knee height'],
+  ['PSL-3', 'Can open the pantry', 'Deployment paused until pantry gates are installed'],
+  ['PSL-4', 'Can operate a doorknob', 'Not deployed. Not discussed.'],
+];
+---
+
+<Base
+  title="Safety"
+  description="How Pugalarity Labs approaches the alignment problem: treats, naps, and a carefully supervised relationship with the mailman."
+>
+  <PageHeader
+    eyebrow="Safety"
+    title="The alignment problem is a treat problem."
+    lead="Advanced systems pursue the objectives they are given. Our work is to make sure those objectives are snacks, and that the snacks are where we say they are."
+  />
+
+  <section aria-labelledby="approach-heading">
+    <h2 id="approach-heading" class="text-3xl font-semibold">Our approach</h2>
+    <div class="mt-6 grid gap-6 md:grid-cols-3">
+      {
+        approaches.map((a) => (
+          <article class="border-rule bg-paper-2 rounded-lg border p-6">
+            <h3 class="text-xl font-semibold">{a.title}</h3>
+            <p class="text-muted mt-3">{a.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="misalignment-heading" class="mt-20 max-w-3xl">
+    <h2 id="misalignment-heading" class="text-3xl font-semibold">What misalignment looks like</h2>
+    <p class="mt-4 text-lg leading-relaxed">
+      In our experience, a misaligned system does not rebel. It naps. A model that has lost
+      interest in its objective stops responding, rolls onto its side, and produces a low,
+      continuous output we have been unable to interpret. We consider this the most important
+      open problem in the field.
+    </p>
+  </section>
+
+  <section aria-labelledby="interp-heading" class="mt-20 max-w-3xl">
+    <h2 id="interp-heading" class="text-3xl font-semibold">Interpretability</h2>
+    <p class="mt-4 text-lg leading-relaxed">
+      Our interpretability team has identified the “walk” feature in Snort-1, a direction in
+      activation space that is strongly active whenever the model is asked about a walk. It also
+      activates on “w-a-l-k”, “the W word”, and the sound of keys. We are developing a mitigation.
+    </p>
+  </section>
+
+  <section aria-labelledby="psl-heading" class="mt-20">
+    <h2 id="psl-heading" class="text-3xl font-semibold">Pug Safety Levels</h2>
+    <p class="text-muted mt-3 max-w-2xl">
+      Deployment decisions are gated by capability thresholds. Snort-1 is currently assessed at
+      PSL-2. Read the full{' '}
+      <a href="/legal/responsible-scaling-policy/" class="text-ink underline underline-offset-4">Responsible Scaling Policy</a>.
+    </p>
+    <div class="mt-6">
+      <table class="w-full text-left">
+        <caption class="sr-only">Pug Safety Levels, with the capability threshold and required safeguards for each</caption>
+        <thead class="border-rule border-b">
+          <tr>
+            <th scope="col" class="py-3 pr-3 font-medium">Level</th>
+            <th scope="col" class="py-3 pr-3 font-medium">Capability threshold</th>
+            <th scope="col" class="py-3 font-medium">Required safeguards</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-rule">
+          {
+            levels.map(([level, threshold, safeguards]) => (
+              <tr>
+                <th scope="row" class="py-3 pr-3 align-top font-mono font-medium whitespace-nowrap">{level}</th>
+                <td class="py-3 pr-3 align-top">{threshold}</td>
+                <td class="text-muted py-3 align-top">{safeguards}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Base>

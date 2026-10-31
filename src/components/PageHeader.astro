@@ -1,0 +1,16 @@
+---
+// Shared title block: every page has exactly one <h1>, which is this one.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+}
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<header class="mb-12 max-w-3xl">
+  {eyebrow && <p class="text-accent font-mono text-sm uppercase tracking-wider">{eyebrow}</p>}
+  <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">{title}</h1>
+  {lead && <p class="text-muted mt-5 text-lg">{lead}</p>}
+</header>
