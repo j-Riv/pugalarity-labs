@@ -67,7 +67,10 @@ const { title, caption, series, groups, max = 100, unit = '%' } = Astro.props;
     }
   </div>
 
-  <table class="sr-only">
+  <!-- sr-only goes on a wrapper: a table ignores overflow:hidden, so its content would still
+       stretch the page sideways. -->
+  <div class="sr-only">
+  <table>
     <caption>{title}</caption>
     <thead>
       <tr>
@@ -91,4 +94,5 @@ const { title, caption, series, groups, max = 100, unit = '%' } = Astro.props;
       }
     </tbody>
   </table>
+  </div>
 </figure>
