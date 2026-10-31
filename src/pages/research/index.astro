@@ -1,0 +1,41 @@
+---
+// src/pages/research/index.astro -> /research/ (an index.astro is the folder's own page).
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { papers } from '../../data/papers';
+---
+
+<Base
+  title="Research"
+  description="Papers from Pugalarity Labs on scaling, interpretability, alignment, and sitting."
+>
+  <PageHeader
+    eyebrow="Research"
+    title="Publications"
+    lead="Our research advances the frontier of safe, beneficial pug intelligence. Selected papers are listed below."
+  />
+
+  <ul class="max-w-3xl divide-y divide-rule border-y border-rule">
+    {
+      papers.map((p) => (
+        <li>
+          <article class="py-8">
+            <p class="text-muted font-mono text-sm">
+              {p.id} · <time datetime={p.isoDate}>{p.date}</time>
+            </p>
+            <h2 class="mt-2 text-2xl font-semibold leading-snug">{p.title}</h2>
+            <p class="text-muted mt-1">{p.authors}</p>
+            <p class="mt-4 text-lg leading-relaxed">{p.abstract}</p>
+            <ul class="mt-4 flex flex-wrap gap-2" aria-label="Topics">
+              {
+                p.tags.map((t) => (
+                  <li class="border-rule bg-paper-2 rounded-full border px-3 py-0.5 text-sm">{t}</li>
+                ))
+              }
+            </ul>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

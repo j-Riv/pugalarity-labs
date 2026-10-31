@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Base
+  title="Playground"
+  description="Chat with Snort-1 in the Pugalarity Labs playground."
+>
+  <PageHeader
+    eyebrow="Playground"
+    title="Talk to Snort-1"
+    lead="Ask Snort-1 anything. Responses are generated in your browser and are not sent or stored."
+  />
+
+  <div data-chat class="border-rule bg-paper-2 max-w-2xl rounded-lg border">
+    <div class="border-rule border-b px-5 py-3">
+      <h2 class="font-serif text-lg font-semibold">
+        Snort-1 <span class="text-muted font-sans text-sm font-normal">private preview</span>
+      </h2>
+    </div>
+
+    <!-- role="log" announces each added message to screen readers. tabindex="0" lets
+         keyboard users scroll the conversation. -->
+    <ul
+      data-chat-log
+      role="log"
+      aria-label="Conversation with Snort-1"
+      aria-live="polite"
+      tabindex="0"
+      class="h-96 space-y-3 overflow-y-auto px-5 py-4"
+    >
+      <li class="bg-paper border-rule mr-10 rounded-lg border px-4 py-2">
+        <span class="sr-only">Snort-1: </span>snrk.
+      </li>
+    </ul>
+
+    <p data-chat-thinking hidden aria-hidden="true" class="text-muted px-5 pb-3 font-mono text-sm"></p>
+
+    <form data-chat-form class="border-rule flex gap-3 border-t p-4">
+      <label for="chat-input" class="sr-only">Message Snort-1</label>
+      <input
+        id="chat-input"
+        type="text"
+        required
+        maxlength="500"
+        autocomplete="off"
+        placeholder="Message Snort-1"
+        class="border-rule bg-paper placeholder:text-muted min-w-0 flex-1 rounded border px-4 py-2.5"
+      />
+      <button
+        type="submit"
+        class="bg-accent text-paper rounded px-5 py-2.5 font-medium hover:opacity-90 disabled:opacity-60"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+
+  <p class="text-muted mt-4 max-w-2xl text-sm">
+    Snort-1 can make mistakes. Mostly about where it left the ball.
+  </p>
+</Base>
+
+<script>
+  // Everything here runs in the browser. There is no network call and no storage.
+  const root = document.querySelector<HTMLElement>('[data-chat]');
+  const log = root?.querySelector<HTMLElement>('[data-chat-log]');
+  const form = root?.querySelector<HTMLFormElement>('[data-chat-form]');
+  const input = root?.querySelector<HTMLInputElement>('#chat-input');
+  const thinking = root?.querySelector<HTMLElement>('[data-chat-thinking]');
+  const send = form?.querySelector<HTMLButtonElement>('button');
+
+  const rules: [RegExp, string][] = [
+    [/\bwalk|w-a-l-k|leash/i, 'WALK? (This is a measured response. I am not excited.)'],
+    [/treat|snack|food|dinner|cheese|bacon/i, 'I have located the treat. It is in your hand. Please advise.'],
+    [/mailman|delivery|doorbell|postal/i, 'Threat detected. Escalating vocalization to maximum. This is the safe response.'],
+    [/squirrel/i, 'I have caught zero (0) squirrels. This is by design.'],
+    [/align|safe|agi\b|singularity|superintelligen/i, 'Our alignment approach is treats. Results have been consistent.'],
+    [/who are you|what are you|your name/i, 'I am Snort-1, a large pug model developed by Pugalarity Labs.'],
+    [/^\s*(hi|hello|hey)\b/i, 'snrk. Hello.'],
+  ];
+
+  const fallbacks = [
+    'snrk.',
+    '*tilts head*',
+    'Have you considered: treat?',
+    'I understand your question. I have decided to sit.',
+    'Great question. Unfortunately, I was asleep for most of it.',
+    'As a large pug model, I cannot help with that. I can, however, be held.',
+    'Reasoning complete. Conclusion: belly.',
+    'I have reviewed the available evidence. There was a sound from the kitchen.',
+    'I am unable to browse the web. I can browse the yard.',
+  ];
+
+  let last = '';
+  const reply = (text: string) => {
+    for (const [pattern, answer] of rules) if (pattern.test(text)) return answer;
+    // Avoid repeating the previous fallback back to back.
+    const options = fallbacks.filter((f) => f !== last);
+    last = options[Math.floor(Math.random() * options.length)];
+    return last;
+  };
+
+  const add = (who: 'You' | 'Snort-1', text: string) => {
+    const li = document.createElement('li');
+    li.className =
+      who === 'You'
+        ? 'bg-accent text-paper ml-10 rounded-lg px-4 py-2'
+        : 'bg-paper border-rule mr-10 rounded-lg border px-4 py-2';
+    const label = document.createElement('span');
+    label.className = 'sr-only';
+    label.textContent = `${who}: `;
+    // textContent, never innerHTML: whatever is typed is shown as plain text.
+    li.append(label, document.createTextNode(text));
+    log?.append(li);
+    if (log) log.scrollTop = log.scrollHeight;
+  };
+
+  let pending = false;
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const text = input?.value.trim() ?? '';
+    if (!text || pending || !input || !send || !thinking) return;
+
+    pending = true;
+    send.disabled = true;
+    add('You', text);
+    input.value = '';
+
+    const naps = 3 + Math.floor(Math.random() * 38);
+    thinking.textContent = `Reasoning for ${naps} naps…`;
+    thinking.hidden = false;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const delay = reduced ? 300 : 900 + Math.random() * 700;
+    window.setTimeout(() => {
+      thinking.hidden = true;
+      add('Snort-1', reply(text));
+      send.disabled = false;
+      pending = false;
+      input.focus();
+    }, delay);
+  });
+</script>
