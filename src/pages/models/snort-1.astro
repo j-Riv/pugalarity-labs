@@ -5,6 +5,7 @@ import PageHeader from '../../components/PageHeader.astro';
 import BarChart from '../../components/BarChart.astro';
 import LineChart from '../../components/LineChart.astro';
 import { benchmarkSeries, benchmarks, scalingPoints } from '../../data/benchmarks';
+import { models } from '../../data/snort';
 
 const specs = [
   ['Release', 'Private preview, Q3 2026'],
@@ -12,7 +13,6 @@ const specs = [
   ['Parameters', '11 billion wrinkles'],
   ['Modalities', 'Sniff, bark, head tilt'],
   ['Training data', '40 petabelly-rubs'],
-  ['Pricing', '$0.40 per million input treats · $1.60 per million output treats'],
 ];
 
 const card = [
@@ -46,6 +46,48 @@ const card = [
         ))
       }
     </dl>
+  </section>
+
+  <section aria-labelledby="models-heading" class="mt-20">
+    <h2 id="models-heading" class="text-3xl font-semibold">Models</h2>
+    <p class="text-muted mt-3 max-w-2xl text-lg">
+      Snort-1 is available in three sizes. Pricing is per million treats.
+    </p>
+    <ul class="mt-6 grid gap-6 sm:grid-cols-3">
+      {
+        models.map((m) => (
+          <li class="border-rule bg-paper-2 hover:border-accent relative flex flex-col rounded-lg border p-5">
+            <h3 class="font-serif text-xl font-semibold">{m.label}</h3>
+            <p class="text-muted mt-1 grow">{m.tagline}</p>
+            <dl class="border-rule divide-rule mt-4 divide-y border-y text-sm">
+              <div class="flex justify-between gap-4 py-2">
+                <dt class="text-muted">Context</dt>
+                <dd class="text-right">{m.context}</dd>
+              </div>
+              <div class="flex justify-between gap-4 py-2">
+                <dt class="text-muted">Input</dt>
+                <dd class="text-right">{m.price.input}</dd>
+              </div>
+              <div class="flex justify-between gap-4 py-2">
+                <dt class="text-muted">Output</dt>
+                <dd class="text-right">{m.price.output}</dd>
+              </div>
+              <div class="flex justify-between gap-4 py-2">
+                <dt class="text-muted">Limitation</dt>
+                <dd class="text-right">{m.limitation}</dd>
+              </div>
+            </dl>
+            <a
+              href={`/playground/?model=${m.id}`}
+              class="pt-4 underline underline-offset-4 after:absolute after:inset-0 after:content-['']"
+              aria-label={`Try ${m.label} in the playground`}
+            >
+              Try in the playground
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section aria-labelledby="bench-heading" class="mt-20">
