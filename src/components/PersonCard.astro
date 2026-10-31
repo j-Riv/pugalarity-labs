@@ -1,0 +1,49 @@
+---
+import { Picture } from 'astro:assets';
+
+interface Props {
+  name: string;
+  title: string;
+  bio: string;
+  photo: ImageMetadata;
+  alt: string;
+  /** Small label under the title, for members who need one. */
+  badge?: string;
+  /** Heading level for the name, so it nests correctly under the section heading. */
+  level?: 'h2' | 'h3';
+  /** Denser layout for the board grid (four columns on desktop). */
+  compact?: boolean;
+}
+
+const { name, title, bio, photo, alt, badge, level = 'h2', compact = false } = Astro.props;
+const Heading = level;
+
+// `sizes` tells the browser how wide the portrait renders so it can pick a srcset entry.
+const sizes = compact
+  ? '(min-width: 1024px) 190px, (min-width: 640px) calc(50vw - 56px), calc(100vw - 72px)'
+  : '(min-width: 1024px) 270px, (min-width: 640px) calc(50vw - 56px), calc(100vw - 72px)';
+---
+
+<article class="border-rule bg-paper-2 h-full rounded-lg border p-5">
+  <Picture
+    src={photo}
+    alt={alt}
+    width={800}
+    height={800}
+    widths={[320, 540, 800]}
+    sizes={sizes}
+    formats={['avif', 'webp']}
+    fallbackFormat="jpeg"
+    class="aspect-square w-full rounded-md object-cover"
+  />
+  <Heading class:list={['mt-5 font-semibold', compact ? 'text-lg' : 'text-xl']}>{name}</Heading>
+  <p class="text-accent mt-1 font-medium">{title}</p>
+  {
+    badge && (
+      <p class="border-rule text-muted mt-3 inline-block rounded-full border px-3 py-0.5 text-sm">
+        {badge}
+      </p>
+    )
+  }
+  <p class:list={['text-muted mt-3', compact && 'text-sm']}>{bio}</p>
+</article>

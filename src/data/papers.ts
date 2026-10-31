@@ -13,7 +13,7 @@ export const papers: Paper[] = [
   {
     id: 'pugXiv:2610.00417',
     title: 'Snacks Are All You Need',
-    authors: 'B. Snortsworth, R. Wrinkles, Waffles',
+    authors: 'J. Snortsworth, H. Wrinkles, W. Wafflebrook',
     date: 'October 2026',
     isoDate: '2026-10',
     abstract:
@@ -23,7 +23,7 @@ export const papers: Paper[] = [
   {
     id: 'pugXiv:2609.00288',
     title: 'Chain-of-Sniff Prompting Elicits Reasoning in Large Pug Models',
-    authors: 'B. Snortsworth, Pancake',
+    authors: 'J. Snortsworth, L. Pancroft',
     date: 'September 2026',
     isoDate: '2026-09',
     abstract:
@@ -33,7 +33,7 @@ export const papers: Paper[] = [
   {
     id: 'pugXiv:2608.00153',
     title: 'Sparse Autoencoders Reveal the Belly-Rub Feature',
-    authors: 'Waffles, B. Snortsworth',
+    authors: 'W. Wafflebrook, J. Snortsworth',
     date: 'August 2026',
     isoDate: '2026-08',
     abstract:
@@ -43,7 +43,7 @@ export const papers: Paper[] = [
   {
     id: 'pugXiv:2606.00091',
     title: 'On the Emergence of Sitting in Scaled Systems',
-    authors: 'B. Snortsworth, Noodle',
+    authors: 'J. Snortsworth, L. Napworth',
     date: 'June 2026',
     isoDate: '2026-06',
     abstract:
@@ -53,7 +53,7 @@ export const papers: Paper[] = [
   {
     id: 'pugXiv:2604.00036',
     title: 'Constitutional Napping: Alignment Through Scheduled Rest',
-    authors: 'Noodle, Waffles, Meatball',
+    authors: 'L. Napworth, W. Wafflebrook, M. Meatley',
     date: 'April 2026',
     isoDate: '2026-04',
     abstract:

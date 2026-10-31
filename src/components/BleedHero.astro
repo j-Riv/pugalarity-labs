@@ -1,0 +1,184 @@
+---
+// Full-bleed image section whose edges dissolve into the page background (var(--paper)).
+// Same technique as the home hero: the photo is masked out at the top, bottom, and sides, a
+// page-colored overlay pulls its shadows toward the page tone, and a page-colored scrim sits
+// behind the copy. The art keeps its aspect ratio (height-capped) and sits at the right, so on
+// ultrawide screens it is never cropped; the rest is plain page background. Below lg the image
+// comes first and the copy sits under it. The slot (the copy) comes first in the DOM so
+// headings are read before the image.
+import { Picture } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** object-position x for the narrow (stacked) crop: where the subject sits in the image. */
+  focusMobile?: string;
+  /** Center x of the subject (in the narrow crop and in the wide layout), where the tint overlay is clear. */
+  tintMobile?: string;
+  tintDesktop?: string;
+  /** Fade the right edge too. Turn off when the image should run flush to the viewport edge. */
+  fadeRight?: boolean;
+  /** Height of the image when stacked above the copy (below lg). Any CSS length. */
+  artHeight?: string;
+  /** Pull the following section up under the faded bottom edge (lg and up). */
+  overlap?: boolean;
+}
+
+const {
+  src,
+  alt,
+  focusMobile = '90%',
+  tintMobile = '60%',
+  tintDesktop = '70%',
+  fadeRight = true,
+  artHeight = 'min(100vw, 28rem)',
+  overlap = false,
+} = Astro.props;
+const ratio = (src.width / src.height).toFixed(4);
+---
+
+<section
+  class="bleed"
+  data-bleed
+  style={`--bleed-focus:${focusMobile};--bleed-tint-m:${tintMobile};--bleed-tint-d:${tintDesktop};--bleed-ratio:${ratio};--bleed-art-h:${artHeight};--bleed-right-m:${fadeRight ? '91%' : '100%'};--bleed-right-d:${fadeRight ? '92%' : '100%'};--bleed-mb:${overlap ? '-2rem' : '0px'}`}
+>
+  <div class="bleed-copy">
+    <div class="mx-auto w-full max-w-5xl px-4 py-8 lg:py-12">
+      <div class="lg:max-w-[27rem]">
+        <slot />
+      </div>
+    </div>
+  </div>
+  <div class="bleed-art">
+    <div class="bleed-fade">
+      <Picture
+        src={src}
+        alt={alt}
+        width={src.width}
+        height={src.height}
+        widths={[800, 1200, src.width]}
+        sizes="(min-width: 1024px) min(100vw, 1350px), min(205vw, 910px)"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpeg"
+        priority
+        class="bleed-img"
+      />
+      <div class="bleed-tint" aria-hidden="true"></div>
+      <div class="bleed-scrim" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* Full-bleed needs 100vw, which includes a classic scrollbar's width. Clip that sliver. */
+  html:has([data-bleed]) {
+    overflow-x: clip;
+  }
+
+  .bleed {
+    --bleed-h: clamp(30rem, 54vw, 47.5rem);
+    position: relative;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .bleed-art {
+    position: relative;
+    width: 100%;
+    height: var(--bleed-art-h);
+  }
+  .bleed-fade {
+    position: absolute;
+    inset: 0;
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 9%, #000 var(--bleed-right-m), transparent 100%);
+    mask-image:
+      linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 9%, #000 var(--bleed-right-m), transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+  .bleed-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--bleed-focus) center;
+  }
+  /* Lift the photo's shadows toward the page tone, but not over the subject. */
+  .bleed-tint {
+    --tint-x: var(--bleed-tint-m);
+    --tint-rx: 42%;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--paper);
+    opacity: 0.8;
+    -webkit-mask-image: radial-gradient(ellipse var(--tint-rx) 68% at var(--tint-x) 50%, transparent 55%, #000 100%);
+    mask-image: radial-gradient(ellipse var(--tint-rx) 68% at var(--tint-x) 50%, transparent 55%, #000 100%);
+  }
+  @media (prefers-color-scheme: dark) {
+    /* lighten = per-channel max(photo, page): shadows darker than the page become the page. */
+    .bleed-tint {
+      mix-blend-mode: lighten;
+      opacity: 1;
+    }
+  }
+  .bleed-scrim {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .bleed {
+      display: block;
+      min-height: var(--bleed-h);
+      margin-bottom: var(--bleed-mb);
+    }
+    .bleed-copy {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      min-height: var(--bleed-h);
+    }
+    .bleed-art {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: var(--bleed-h);
+      width: min(100%, calc(var(--bleed-h) * var(--bleed-ratio)));
+    }
+    .bleed-fade {
+      -webkit-mask-image:
+        linear-gradient(to bottom, transparent 0, #000 14%, #000 72%, transparent 100%),
+        linear-gradient(to right, transparent 0, #000 38%, #000 var(--bleed-right-d), transparent 100%);
+      mask-image:
+        linear-gradient(to bottom, transparent 0, #000 14%, #000 72%, transparent 100%),
+        linear-gradient(to right, transparent 0, #000 38%, #000 var(--bleed-right-d), transparent 100%);
+    }
+    .bleed-img {
+      object-position: right center;
+    }
+    .bleed-tint {
+      --tint-x: var(--bleed-tint-d);
+      --tint-rx: 34%;
+    }
+    /* Soft left-to-right scrim in the page color behind the copy (dark in dark mode). */
+    .bleed-scrim {
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to right,
+        var(--paper) 0%,
+        color-mix(in srgb, var(--paper) 88%, transparent) 28%,
+        color-mix(in srgb, var(--paper) 40%, transparent) 50%,
+        transparent 68%
+      );
+    }
+  }
+</style>

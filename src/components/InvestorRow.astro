@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import { investors } from '../data/investors';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<!-- The firm name is live text, so the logo is decorative (alt=""). The logos are one flat
+     color; brightness-0 turns them into the theme's ink (inverted in dark mode) so they
+     keep contrast on both backgrounds. -->
+<ul class:list={['grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-4', className]}>
+  {
+    investors.map((i) => (
+      <li class="flex items-center gap-3">
+        <Image
+          src={i.logo}
+          alt=""
+          width={120}
+          class="aspect-400/392 h-10 w-auto shrink-0 opacity-60 brightness-0 dark:invert"
+        />
+        <span class="text-muted font-serif text-[15px] font-semibold leading-tight">{i.name}</span>
+      </li>
+    ))
+  }
+</ul>

@@ -2,30 +2,30 @@
 // Astro turns src/pages/404.astro into /404.html, which GitHub Pages and Netlify
 // serve automatically for unknown URLs.
 import Base from '../layouts/Base.astro';
-import Pug from '../components/Pug.astro';
+import BleedHero from '../components/BleedHero.astro';
+import notFound from '../assets/404/pug-not-found.jpg';
 ---
 
 <Base title="Page not found" description="This page was buried in the backyard.">
-  <section class="grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
-    <div>
-      <p class="text-accent font-mono text-sm uppercase tracking-wider">Error 404</p>
-      <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">
-        This page was buried in the backyard.
-      </h1>
-      <p class="text-muted mt-5 max-w-xl text-lg">
-        Our model is still looking for it. It has been looking since approximately 3 p.m.
-      </p>
-      <a
-        href="/"
-        class="bg-accent text-paper mt-8 inline-block rounded px-5 py-3 font-medium hover:opacity-90"
-      >
-        Return to the surface
-      </a>
-    </div>
-    <Pug
-      class="mx-auto w-full max-w-xs"
-      expression="neutral"
-      alt="Illustration of a fawn pug with a calm, neutral expression."
-    />
-  </section>
+  <BleedHero
+    src={notFound}
+    alt="A pug in round wire glasses, covered in soil, looking back over its shoulder beside a freshly dug hole marked off with string and wooden stakes."
+    focusMobile="94%"
+    tintMobile="55%"
+    tintDesktop="72%"
+  >
+    <p class="text-accent font-mono text-sm uppercase tracking-wider">Error 404</p>
+    <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">
+      This page was buried in the backyard.
+    </h1>
+    <p class="text-muted mt-5 max-w-xl text-lg">
+      Our model is still looking for it. It has been looking since approximately 3 p.m.
+    </p>
+    <a
+      href="/"
+      class="bg-accent text-paper mt-8 inline-block rounded px-5 py-3 font-medium hover:opacity-90"
+    >
+      Return to the surface
+    </a>
+  </BleedHero>
 </Base>

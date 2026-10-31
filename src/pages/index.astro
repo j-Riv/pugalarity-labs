@@ -1,9 +1,9 @@
 ---
 // A file in src/pages/ becomes a route; this one is "/". It wraps its content in Base.
 import Base from '../layouts/Base.astro';
-import Pug from '../components/Pug.astro';
-import InvestorLogo from '../components/InvestorLogo.astro';
-import { investors } from '../data/investors';
+import BleedHero from '../components/BleedHero.astro';
+import InvestorRow from '../components/InvestorRow.astro';
+import hero from '../assets/hero/hero.jpg';
 
 const metrics = [
   { value: '1.8 billion', label: 'snorts processed per second' },
@@ -45,34 +45,35 @@ const pillars = [
     <span aria-hidden="true">→</span>
   </a>
 
-  <section class="grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
-    <div>
-      <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl">
-        Aligning the future with snacks.
-      </h1>
-      <p class="text-muted mt-6 max-w-xl text-lg">
-        Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
-        sitting.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <a
-          href="/waitlist/"
-          class="bg-accent text-paper rounded px-5 py-3 font-medium hover:opacity-90"
-        >
-          Join the waitlist
-        </a>
-        <a href="/models/snort-1/" class="underline underline-offset-4">
-          Read the Snort-1 technical report
-        </a>
-      </div>
+  <BleedHero
+    src={hero}
+    alt="The Pugalarity Labs mascot, a smiling pug in round glasses, a black turtleneck and jeans, standing in a spotlight with one paw raised."
+    focusMobile="85%"
+    tintMobile="58%"
+    tintDesktop="76%"
+    artHeight="min(115vw, 32rem)"
+    fadeRight={false}
+    overlap
+  >
+    <h1 class="text-5xl font-semibold leading-[1.05] sm:text-6xl">
+      Aligning the future with snacks.
+    </h1>
+    <p class="text-muted mt-6 max-w-xl text-lg">
+      Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
+      sitting.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+      <a
+        href="/waitlist/"
+        class="bg-accent text-paper rounded px-5 py-3 font-medium hover:opacity-90"
+      >
+        Join the waitlist
+      </a>
+      <a href="/models/snort-1/" class="underline underline-offset-4">
+        Read the Snort-1 technical report
+      </a>
     </div>
-    <Pug
-      class="mx-auto w-full max-w-xs"
-      accessories={['tie']}
-      expression="smile"
-      alt="Illustration of the Pugalarity Labs mascot, a fawn pug in a navy suit and orange tie."
-    />
-  </section>
+  </BleedHero>
 
   <section aria-labelledby="metrics-heading" class="border-rule mt-20 border-y py-8">
     <h2 id="metrics-heading" class="sr-only">Key metrics</h2>
@@ -118,15 +119,7 @@ const pillars = [
     <h2 id="backers-heading" class="text-muted text-sm font-medium uppercase tracking-wider">
       Backed by the world's most patient capital
     </h2>
-    <ul class="text-muted mt-6 flex flex-wrap items-center gap-x-10 gap-y-6">
-      {
-        investors.map((i) => (
-          <li>
-            <InvestorLogo firm={i.firm} class="h-8 w-auto" />
-          </li>
-        ))
-      }
-    </ul>
+    <InvestorRow class="mt-6" />
   </section>
 
   <section class="border-rule bg-paper-2 mt-20 rounded-lg border p-8 sm:p-12">

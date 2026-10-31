@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import InvestorLogo from '../../components/InvestorLogo.astro';
-import { investors } from '../../data/investors';
+import InvestorRow from '../../components/InvestorRow.astro';
 
 const proceeds = [
   ['40%', 'Compute, including an additional 6,000 couches'],
@@ -33,7 +32,7 @@ const proceeds = [
         company at one (1) very good boy.
       </p>
       <p>
-        The financing was led by Kibble Capital and Lapdog Ventures, with participation from
+        The financing was led by Kibble Collective and Lapdog Ventures, with participation from
         Sunbeam Sovereign Fund, Squeak &amp; Partners, and Late Brunch Partners. It brings the
         company’s total funding to more than every other number.
       </p>
@@ -44,7 +43,7 @@ const proceeds = [
           couches.”
         </p>
         <footer class="text-muted mt-2 text-base">
-          Sir Reginald Wrinkles, Chief Executive Pug
+          Henry Wrinkles, Chief Executive Pug
         </footer>
       </blockquote>
 
@@ -70,21 +69,13 @@ const proceeds = [
           of the meeting. That is the kind of conviction we back.”
         </p>
         <footer class="text-muted mt-2 text-base">
-          Gus Fawnsworth, Managing Partner, Kibble Capital
+          Gus Fawnsworth, Managing Partner, Kibble Collective
         </footer>
       </blockquote>
 
       <h2 class="pt-4 text-2xl font-semibold">Our investors</h2>
     </div>
-    <ul class="text-muted mt-4 flex flex-wrap items-center gap-x-10 gap-y-6">
-      {
-        investors.map((i) => (
-          <li>
-            <InvestorLogo firm={i.firm} class="h-8 w-auto" />
-          </li>
-        ))
-      }
-    </ul>
+    <InvestorRow class="mt-4" />
 
     <div class="mt-10 space-y-5 text-lg leading-relaxed">
       <h2 class="text-2xl font-semibold">About Pugalarity Labs</h2>
