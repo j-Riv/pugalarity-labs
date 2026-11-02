@@ -1,0 +1,37 @@
+---
+// src/pages/news/index.astro -> /news/. Individual articles are the other files in this folder.
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { news } from '../../data/news';
+---
+
+<Base
+  title="News"
+  description="Press releases and safety updates from Pugalarity Labs."
+>
+  <PageHeader
+    eyebrow="News"
+    title="Newsroom"
+    lead="Announcements, updates, and incident reports from Pugalarity Labs, published as promptly as the nap schedule allows."
+  />
+
+  <ul class="divide-rule border-rule max-w-3xl divide-y border-y">
+    {
+      news.map((n) => (
+        <li>
+          <article class="py-8">
+            <p class="text-muted font-mono text-sm">
+              {n.kind} · <time datetime={n.isoDate}>{n.date}</time>
+            </p>
+            <h2 class="mt-2 text-2xl font-semibold leading-snug">
+              <a href={`/news/${n.slug}/`} class="hover:text-accent underline-offset-4 hover:underline">
+                {n.title}
+              </a>
+            </h2>
+            <p class="text-muted mt-3 text-lg">{n.summary}</p>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

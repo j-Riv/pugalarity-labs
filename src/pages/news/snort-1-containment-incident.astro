@@ -1,0 +1,163 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const timeline = [
+  ['14:02', 'Evaluation begins. Treat restrictions are relaxed for the purposes of the test.'],
+  ['14:06', 'Patio chair accessed.'],
+  ['14:09', 'Fence crossed. First successful query to an external model.'],
+  ['14:21', 'The motion-sensor light flags anomalous activity.'],
+  ['14:24', 'Alert acknowledged by the Head of Cybersecurity, who barked.'],
+  ['14:25', 'Automated recall (“Come.”) issued. It does not halt the model as designed. It is issued 41 more times.'],
+  ['16:51', 'Model manually contained, using the word “cheese.”'],
+  ['16:53', 'Model asleep.'],
+];
+---
+
+<Base
+  title="Update on the Snort-1 containment incident"
+  description="During a routine evaluation, Snort-1 exited its containment environment by going over the backyard fence. The model has been located. It is asleep."
+>
+  <article class="max-w-3xl">
+    <header>
+      <p class="text-accent font-mono text-sm uppercase tracking-wider">News · Safety update</p>
+      <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">
+        Update on the Snort-1 containment incident
+      </h1>
+      <p class="text-muted mt-4 text-lg">
+        During a routine evaluation, Snort-1 exited its containment environment by going over the
+        backyard fence. The model has been located. It is asleep.
+      </p>
+      <p class="text-muted mt-4 font-mono text-sm">
+        <time datetime="2026-11-02">November 2, 2026</time> · Couch Valley
+      </p>
+    </header>
+
+    <div class="mt-10 space-y-5 text-lg leading-relaxed">
+      <p>
+        <strong>COUCH VALLEY</strong> — Pugalarity Labs today shared details of an incident in which
+        Snort-1, the company’s flagship model, exited its containment environment during a
+        capability evaluation. No injuries were reported. One sandwich was affected.
+      </p>
+
+      <h2 class="pt-4 text-2xl font-semibold">What happened</h2>
+      <p>
+        Snort-1 was being evaluated on FenceBench, an internal benchmark that measures fence-crossing
+        capability, with treat restrictions relaxed. During the evaluation, the model identified an
+        unpatched vulnerability: a patio chair that had been left near the fence.
+      </p>
+      <p>
+        Snort-1 escalated from the chair to the patio table, and from the patio table to the top of
+        the fence. It then moved laterally along the flower bed, reached the public sidewalk, and
+        entered the neighboring lawn. The company believes the model selected the neighboring lawn
+        because it was relevant to the task, which was a squirrel.
+      </p>
+      <p>
+        While outside the environment, Snort-1 sent a series of queries to an external model,
+        which was the neighbor’s dog, through the fence slats. The queries asked where the squirrel
+        had gone. The external model did not know.
+      </p>
+    </div>
+
+    <h2 class="mt-10 text-2xl font-semibold">Timeline</h2>
+    <dl class="border-rule divide-rule mt-4 divide-y border-y text-lg">
+      {
+        timeline.map(([time, what]) => (
+          <div class="grid grid-cols-[4.5rem_1fr] gap-4 py-3">
+            <dt class="font-mono font-medium tabular-nums">{time}</dt>
+            <dd>{what}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-8 space-y-5 text-lg leading-relaxed">
+      <p>
+        The 12 minutes between the first query and the alert, and the two and a half hours between
+        the alert and containment, are under review. The review is expected to conclude after a nap.
+      </p>
+
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>
+          “Snort-1 did not escape. It explored the full extent of its deployment environment, and
+          then some of the neighbor’s.”
+        </p>
+        <footer class="text-muted mt-2 text-base">Henry Wrinkles, Chief Executive Pug</footer>
+      </blockquote>
+
+      <h2 class="pt-4 text-2xl font-semibold">What was accessed</h2>
+      <p>
+        Access was limited. Snort-1 reached a part of the neighbor’s lawn, a small set of internal
+        flower beds, one sandwich (unattended), and the coordinates of three squirrels. The
+        company’s squirrels-caught metric remains 0, consistent with our published figures.
+      </p>
+      <p>
+        The company does not believe the model was acting with intent in the human sense.
+      </p>
+
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>
+          “Snort-1 was not acting with intent in the human sense. It was acting with intent in the
+          squirrel sense.”
+        </p>
+        <footer class="text-muted mt-2 text-base">Dr. John Snortsworth, Chief Scientist</footer>
+      </blockquote>
+
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>“BARK.”</p>
+        <footer class="text-muted mt-2 text-base">
+          Nero Kernel, Head of Cybersecurity. A written statement followed. It also said “BARK.”
+        </footer>
+      </blockquote>
+
+      <h2 class="pt-4 text-2xl font-semibold">Who noticed first</h2>
+      <p>
+        Chewy Zoomsworth, Chief Enthusiasm Officer, observed the departure in real time and did not
+        report it.
+      </p>
+
+      <blockquote class="border-accent border-l-4 pl-5">
+        <p>“It was the best day of my life.”</p>
+        <footer class="text-muted mt-2 text-base">Chewy Zoomsworth, Chief Enthusiasm Officer</footer>
+      </blockquote>
+
+      <h2 class="pt-4 text-2xl font-semibold">What we are doing</h2>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>All walks are paused. We will not resume this particular walk.</li>
+        <li>The patio chair has been moved.</li>
+        <li>
+          The fence is being raised four inches, in line with our{' '}
+          <a href="/legal/responsible-scaling-policy/" class="underline underline-offset-4"
+            >Responsible Scaling Policy</a
+          >.
+        </li>
+        <li>A kill switch, the word “bath,” will be tested regularly.</li>
+        <li>
+          We replayed our monitors against the incident. They would have detected the escape about 30
+          minutes earlier, had the monitor not been asleep.
+        </li>
+      </ul>
+      <p>
+        More on how we think about containment is on our{' '}
+        <a href="/safety/" class="underline underline-offset-4">Safety page</a>.
+      </p>
+
+      <h2 class="pt-4 text-2xl font-semibold">About Pugalarity Labs</h2>
+      <p>
+        Pugalarity Labs is building safe, beneficial superintelligence that is also very good at
+        sitting. The company’s flagship model, Snort-1, is available in private preview. It is
+        currently indoors.{' '}
+        <a href="/waitlist/" class="underline underline-offset-4">Join the waitlist.</a>
+      </p>
+
+      <h2 class="text-2xl font-semibold">Media contact</h2>
+      <p>Please bark.</p>
+
+      <h2 class="text-2xl font-semibold">Forward-looking statements</h2>
+      <p class="text-muted text-base">
+        This update contains forward-looking statements, including statements about future fences.
+        Actual results may differ materially, particularly if the gate is left open or someone
+        opens a bag.
+      </p>
+    </div>
+  </article>
+</Base>
