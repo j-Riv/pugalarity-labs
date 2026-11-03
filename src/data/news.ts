@@ -19,11 +19,20 @@ export const news: NewsItem[] = [
       'During a routine evaluation, Snort-1 exited its containment environment by going over the backyard fence. The model has been located. It is asleep.',
   },
   {
+    slug: 'dotwell-acquisition',
+    title: 'Pugalarity Labs to acquire Dotwell Optics, creating a category leader in chasing',
+    kind: 'Press release',
+    date: 'October 15, 2026',
+    isoDate: '2026-10-15',
+    summary:
+      'The all-stock transaction is valued at $115 quadrillion and unites Pugalarity’s intelligence with the world’s leading manufacturer of the small red dot.',
+  },
+  {
     slug: 'series-z',
     title: 'Pugalarity Labs raises $4.2 quadrillion Series Z at a valuation of one (1) very good boy',
     kind: 'Press release',
-    date: 'October 28, 2026',
-    isoDate: '2026-10-28',
+    date: 'September 17, 2026',
+    isoDate: '2026-09-17',
     summary:
       'The round was led by Kibble Collective and Lapdog Ventures, and brings total funding to more than every other number.',
   },
