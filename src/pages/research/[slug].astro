@@ -1,0 +1,119 @@
+---
+// One page per paper in src/data/papers.ts, at /research/<slug>/.
+import Base from '../../layouts/Base.astro';
+import BarChart from '../../components/BarChart.astro';
+import LineChart from '../../components/LineChart.astro';
+import { papers } from '../../data/papers';
+
+export function getStaticPaths() {
+  return papers.map((paper, i) => ({
+    params: { slug: paper.slug },
+    props: { paper, prev: papers[i - 1], next: papers[i + 1] },
+  }));
+}
+
+const { paper, prev, next } = Astro.props;
+const fig = paper.figure;
+
+const cite = [
+  `@article{${paper.slug},`,
+  `  title   = {${paper.title}},`,
+  `  author  = {${paper.authors.split(', ').join(' and ')}},`,
+  `  journal = {pugXiv},`,
+  `  number  = {${paper.id.replace('pugXiv:', '')}},`,
+  `  year    = {${paper.isoDate.slice(0, 4)}},`,
+  `  note    = {Peer reviewed by a pug}`,
+  `}`,
+].join('\n');
+---
+
+<Base title={paper.title} description={paper.abstract}>
+  <article class="max-w-3xl">
+    <header>
+      <p class="text-accent font-mono text-sm uppercase tracking-wider">Research · {paper.id}</p>
+      <h1 class="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">{paper.title}</h1>
+      <p class="text-muted mt-4 text-lg">{paper.authors}</p>
+      <p class="text-muted mt-2 font-mono text-sm">
+        <time datetime={paper.isoDate}>{paper.date}</time>
+      </p>
+      <ul class="mt-4 flex flex-wrap gap-2" aria-label="Topics">
+        {
+          paper.tags.map((t) => (
+            <li class="border-rule bg-paper-2 rounded-full border px-3 py-0.5 text-sm">{t}</li>
+          ))
+        }
+      </ul>
+    </header>
+
+    <section aria-labelledby="abstract-heading" class="border-rule bg-paper-2 mt-10 rounded-lg border p-6">
+      <h2 id="abstract-heading" class="font-mono text-sm uppercase tracking-wider">Abstract</h2>
+      <p class="mt-3 text-lg leading-relaxed">{paper.abstract}</p>
+    </section>
+
+    {
+      paper.sections.map((s, i) => (
+        <>
+          <section class="mt-10 space-y-5 text-lg leading-relaxed">
+            <h2 class="text-2xl font-semibold">
+              {i + 1}. {s.heading}
+            </h2>
+            {s.body.map((para) => <p>{para}</p>)}
+            {s.list && (
+              <ul class="list-disc space-y-1 pl-6">
+                {s.list.map((li) => (
+                  <li>{li}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+          {i === fig.after && (
+            <div class="mt-8">
+              {fig.kind === 'bar' ? (
+                <BarChart title={fig.title} caption={fig.caption} series={fig.series} groups={fig.groups} />
+              ) : (
+                <LineChart
+                  title={fig.title}
+                  desc={fig.desc}
+                  xLabel={fig.xLabel}
+                  yLabel={fig.yLabel}
+                  xTicks={fig.xTicks}
+                  yTicks={fig.yTicks}
+                  points={fig.points}
+                  annotation={fig.annotation}
+                />
+              )}
+            </div>
+          )}
+        </>
+      ))
+    }
+
+    <section aria-labelledby="cite-heading" class="mt-12">
+      <h2 id="cite-heading" class="text-2xl font-semibold">Cite this paper</h2>
+      <pre
+        class="border-rule bg-paper-2 mt-4 overflow-x-auto rounded-lg border p-4 font-mono text-sm leading-relaxed"
+        tabindex="0"
+        aria-label="BibTeX citation">{cite}</pre>
+    </section>
+
+    <nav aria-label="Papers" class="border-rule mt-12 flex flex-wrap justify-between gap-x-6 gap-y-3 border-t pt-6">
+      {
+        prev ? (
+          <a href={`/research/${prev.slug}/`} class="underline underline-offset-4">
+            <span aria-hidden="true">←</span> Newer: {prev.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      <a href="/research/" class="text-accent underline underline-offset-4">All research</a>
+      {
+        next && (
+          <a href={`/research/${next.slug}/`} class="underline underline-offset-4">
+            Older: {next.title} <span aria-hidden="true">→</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
