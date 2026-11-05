@@ -203,5 +203,24 @@ const ratio = (src.width / src.height).toFixed(4);
         transparent 68%
       );
     }
+    /* The light art is bright all the way to its left edge, so the dark-theme fades read as
+       haze. Start the image sooner and thin the scrim. */
+    :root[data-theme='light'] .bleed-fade {
+      -webkit-mask-image:
+        linear-gradient(to bottom, transparent 0, #000 14%, #000 72%, transparent 100%),
+        linear-gradient(to right, transparent 0, #000 5%, #000 var(--bleed-right-d), transparent 100%);
+      mask-image:
+        linear-gradient(to bottom, transparent 0, #000 14%, #000 72%, transparent 100%),
+        linear-gradient(to right, transparent 0, #000 5%, #000 var(--bleed-right-d), transparent 100%);
+    }
+    :root[data-theme='light'] .bleed-scrim {
+      background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--paper) 70%, transparent) 0%,
+        color-mix(in srgb, var(--paper) 30%, transparent) 22%,
+        color-mix(in srgb, var(--paper) 5%, transparent) 38%,
+        transparent 48%
+      );
+    }
   }
 </style>
